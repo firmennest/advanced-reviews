@@ -56,6 +56,7 @@ function fn_adv_rev_slider($attr)
             </li><?php
           endwhile; ?>
         </ul>
+        <ul class="uk-slider-nav uk-dotnav"></ul>
         <a href="#" class="uk-position-center-left uk-slidenav-large" uk-slidenav-previous uk-slider-item="previous"></a>
         <a href="#" class="uk-position-center-right uk-slidenav-large" uk-slidenav-next uk-slider-item="next"></a>
       </div>
