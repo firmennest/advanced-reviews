@@ -43,6 +43,20 @@ function fn_adv_rev_post_type() {
     'capability_type'       => 'post',
   );
   register_post_type( 'fn-adv-rev', $args );
+
+  $settingsGeneral = get_option('fn_adv_rev_setting[general]');
+  if ($settingsGeneral['taxonomy'] === 'on'){
+    register_taxonomy(
+		'Review Category',
+		'fn-adv-rev',
+		array(
+			'label' => __( 'Review Category' ),
+			'hierarchical' => true,
+      'public' => false,
+      'show_ui' => true
+		)
+	);
+  }
 }
 add_action( 'init', 'fn_adv_rev_post_type', 0 );
 
@@ -83,26 +97,93 @@ function fn_adv_rev_js() {
   }
 }
 add_action( 'wp_enqueue_scripts ', 'fn_adv_rev_js');
-add_action( 'init', 'fn_adv_rev_js');
+add_action('init', 'fn_adv_rev_js');
 
+function fn_adv_rev_js_admin() {
+	$dirPath = plugin_dir_path( __FILE__ );
+  $dirURL = plugin_dir_url( __FILE__ );
+  if ( get_current_screen()->base === 'fn-adv-rev_page_fn-adv-rev-settings' ) {
+    wp_enqueue_media();
+    wp_enqueue_script( 'fn_adv_rev_js_media', plugins_url( 'admin/assets/js/media-min.js' , __FILE__ ), array('jquery'), '0.1' );
+  }
+}
+add_action( 'wp_enqueue_scripts ', 'fn_adv_rev_js_admin');
+add_action('current_screen', 'fn_adv_rev_js_admin');
 
 add_action( 'admin_menu', 'fn_adv_rev_admin_menu' );
 function fn_adv_rev_admin_menu() {
 	add_submenu_page( 'edit.php?post_type=fn-adv-rev', 'Documentation', 'Documentation', 'manage_options', 'fn-adv-rev-docu', 'fn_adv_rev_admin_docu'  );
-	//add_submenu_page( 'edit.php?post_type=fn-adv-rev', 'Settings', 'Settings', 'manage_options', 'fn-adv-rev-settings', 'fn_adv_rev_admin_settings'  );
+	add_submenu_page( 'edit.php?post_type=fn-adv-rev', 'Settings', 'Settings', 'manage_options', 'fn-adv-rev-settings', 'fn_adv_rev_admin_settings'  );
 }
 
 add_action('add_meta_boxes', 'fn_adv_rev_add_meta_boxes', 1);
 function fn_adv_rev_add_meta_boxes() {
 	$screen = 'fn-adv-rev';
+
 	add_meta_box(
-		'fn_adv_rev_rating_box',
-		__( 'Rating Details', 'firmennest | Advanced Reviews' ),
+		'fn_adv_rev_rating_box_details',
+		__( 'Details', 'firmennest | Advanced Reviews' ),
 		'fn_adv_rev_add_fields',
 		$screen,
 		'advanced',
 		'high'
 	);
+
+  $fields = get_option('fn_adv_rev_setting[fields]');
+  if(is_array($fields)){
+    add_meta_box(
+      'fn_adv_rev_rating_box_fields',
+      __( 'Zusätzliche Felder', 'firmennest | Advanced Reviews' ),
+      'fn_adv_rev_get_fields',
+      $screen,
+      'advanced',
+      'high'
+    );
+  }
+
+  $questions = get_option('fn_adv_rev_setting[questions]');
+  if(is_array($questions)){
+    add_meta_box(
+      'fn_adv_rev_rating_box_questions',
+      __( 'Zusätzliche Fragen', 'firmennest | Advanced Reviews' ),
+      'fn_adv_rev_get_questions',
+      $screen,
+      'advanced',
+      'high'
+    );
+  }
+}
+function fn_adv_rev_get_questions($post){
+  $questions = get_option('fn_adv_rev_setting[questions]');
+  if(is_array($questions)){
+    ?><div class="uk-form uk-padding-small"><?php
+    $fn_adv_rev_questions = get_post_meta($post->ID, 'fn_adv_rev_questions', true);
+    foreach ($questions as $key => $value) {
+      ?><div class="uk-margin">
+          <label for="<?php echo 'fn_adv_rev_questions'.'['.$key.']'; ?>" class="uk-h5"><?php echo $value; ?></label>
+          <?php wp_nonce_field( 'fn_adv_rev_questions_save['.$key.']', 'fn_adv_rev_questions_save_nonce['.$key.']' ); ?>
+          <input id="<?php echo 'fn_adv_rev_questions'.'['.$key.']'; ?>" name="<?php echo 'fn_adv_rev_questions'.'['.$key.']'; ?>" type="number" value="<?php echo $fn_adv_rev_questions[$key] ?>" min="1" max="5">
+      </div><?php
+    }
+    ?></div><?php
+  }
+}
+function fn_adv_rev_get_fields($post){
+  $fields = get_option('fn_adv_rev_setting[fields]');
+  if(is_array($fields)){
+    ?><div class="uk-form uk-padding-small"><?php
+    $fn_adv_rev_fields = get_post_meta($post->ID, 'fn_adv_rev_fields', true);
+    foreach ($fields as $key => $field) {
+      ?><div class="uk-margin">
+          <label for="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>" class="uk-h5"><?php echo $field['label']; ?></label>
+          <input id="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>"" name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][label]'; ?>" type="<?php echo $field['type']; ?>" value="<?php if(is_array($fn_adv_rev_fields)) echo $fn_adv_rev_fields[$key]['label']; ?>">
+          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][type]'; ?>" type="hidden">
+          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][required]'; ?>" type="hidden">
+          <?php wp_nonce_field( 'fn_adv_rev_fields_save['.$key.']', 'fn_adv_rev_fields_save_nonce['.$key.']' ); ?>
+      </div><?php
+    }
+    ?></div><?php
+  }
 }
 
 function fn_adv_rev_add_fields($post) {
@@ -175,4 +256,29 @@ function fn_adv_rev_save_post($post_id) {
     $fn_adv_rev_rating[$key] .= $_POST['fn_adv_rev_rating'][$key];
   }
   update_post_meta($post_id, 'fn_adv_rev_rating', $fn_adv_rev_rating);
+
+  if ( ! isset( $_POST['fn_adv_rev_questions_save_nonce'] ) )
+    return $post_id;
+  foreach ($_POST['fn_adv_rev_questions_save_nonce'] as $key => $value ) {
+    if ( ! isset( $value ) )
+      return $post_id;
+    if ( !wp_verify_nonce( $_POST['fn_adv_rev_questions_save_nonce'][$key], 'fn_adv_rev_questions_save['.$key.']' ) )
+      return $post_id;
+
+    $fn_adv_rev_questions[$key] .= $_POST['fn_adv_rev_questions'][$key];
+  }
+  update_post_meta($post_id, 'fn_adv_rev_questions', $fn_adv_rev_questions);
+
+  if ( ! isset( $_POST['fn_adv_rev_fields_save_nonce'] ) )
+    return $post_id;
+    $fn_adv_rev_fields = array();
+  foreach ($_POST['fn_adv_rev_fields_save_nonce'] as $key => $value ) {
+    if ( ! isset( $value ) )
+      return $post_id;
+    if ( !wp_verify_nonce( $_POST['fn_adv_rev_fields_save_nonce'][$key], 'fn_adv_rev_fields_save['.$key.']' ) )
+      return $post_id;
+
+      array_push($fn_adv_rev_fields ,$_POST['fn_adv_rev_fields'][$key]);
+  }
+  update_post_meta($post_id, 'fn_adv_rev_fields', $fn_adv_rev_fields);
 }

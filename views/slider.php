@@ -24,6 +24,8 @@ function fn_adv_rev_slider($attr)
     $postSet = 1;
   }
 
+  $settingsGeneral = get_option('fn_adv_rev_setting[general]');
+
   $args = array (
       'post_type' => 'fn-adv-rev',
       'posts_per_page' => $postNumber,
@@ -41,6 +43,18 @@ function fn_adv_rev_slider($attr)
             $fnAdvReview = new fnAdvReview;
             $fnAdvReviewMeta = $fnAdvReview->getMeta(get_the_ID());
             ?><li><?php
+              if ($settingsGeneral['placeholderImageStatus'] === 'on'){
+                $image_id = intVal($settingsGeneral['placeholderImage']);
+                if(has_post_thumbnail()){
+                  ?><div class="fn-adv-rev-image uk-margin-bottom">
+                    <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="">
+                  </div><?php
+                }else if($image_id > 0){
+                  ?><div class="fn-adv-rev-image uk-margin-bottom">
+                    <img src="<?php echo wp_get_attachment_image_src( $image_id, 'medium' )[0]; ?>" alt="">
+                  </div><?php
+                }
+              }
               echo $fnAdvReview->getStars($fnAdvReviewMeta['value']);
               ?><div class="fn-adv-rev-content uk-flex uk-padding">
                 <div class="uk-width-1-1">
@@ -51,7 +65,21 @@ function fn_adv_rev_slider($attr)
                 </div>
               </div>
               <div class="fn-adv-rev-details">
-                <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
+                <div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
+                  <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
+                  <?php
+                  $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');
+                  if($fields){
+                    foreach ($fields as $key => $field) {
+                      foreach ($field as $value) {
+                        if (!empty($value['label'])) {
+                          ?><span class="fn-adv-rev-field-<?php echo sanitize_title($value['label']); ?>"><?php echo $value['label']; ?></span><?php
+                        }
+                      }
+                    }
+                  }
+                  ?>
+                </div>
               </div>
             </li><?php
           endwhile; ?>
