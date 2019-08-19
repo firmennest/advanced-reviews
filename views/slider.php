@@ -38,7 +38,7 @@ function fn_adv_rev_slider($attr)
   if($attr['style'] === 'left'){
     $advRev_query = new WP_Query( $args ); ?>
     <?php if ( $advRev_query->have_posts() ) :
-      ?><div class="uk-position-relative" uk-height-match="target: .fn-adv-rev-content">
+      ?><div class="uk-position-relative fn-adv-rev-frame" uk-height-match="target: .fn-adv-rev-content">
         <div uk-slider>
           <ul class="uk-slider-items uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m">
             <?php while ( $advRev_query->have_posts() ) : $advRev_query->the_post();
@@ -51,11 +51,11 @@ function fn_adv_rev_slider($attr)
                     if ($settingsGeneral['placeholderImageStatus'] === 'on'){
                       $image_id = intVal($settingsGeneral['placeholderImage']);
                       if(has_post_thumbnail()){
-                        ?><div class="fn-adv-rev-image uk-margin-bottom">
+                        ?><div class="fn-adv-rev-image">
                           <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="">
                         </div><?php
                       }else if($image_id > 0){
-                        ?><div class="fn-adv-rev-image uk-margin-bottom">
+                        ?><div class="fn-adv-rev-image">
                           <img src="<?php echo wp_get_attachment_image_src( $image_id, 'medium' )[0]; ?>" alt="">
                         </div><?php
                       }
@@ -107,7 +107,7 @@ function fn_adv_rev_slider($attr)
   }else{
     $advRev_query = new WP_Query( $args ); ?>
     <?php if ( $advRev_query->have_posts() ) :
-      ?><div class="uk-position-relative uk-text-center" uk-height-match="target: .fn-adv-rev-content">
+      ?><div class="uk-position-relative uk-text-center fn-adv-rev-frame" uk-height-match="target: .fn-adv-rev-content">
         <div uk-slider>
           <ul class="uk-slider-items uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m">
             <?php while ( $advRev_query->have_posts() ) : $advRev_query->the_post();
