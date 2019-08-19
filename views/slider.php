@@ -63,7 +63,7 @@ function fn_adv_rev_slider($attr)
                     ?>
                   </div>
                   <div class="uk-width-2-3">
-                    <div class="fn-adv-rev-content uk-flex uk-padding uk-padding-remove-left">
+                    <div class="fn-adv-rev-content uk-flex">
                       <div class="uk-width-1-1">
                         <?php if(!empty($fnAdvReviewMeta['title'])){
                           ?><div class="fn-adv-rev-title uk-h3"><?php echo $fnAdvReviewMeta['title']; ?></div><?php
