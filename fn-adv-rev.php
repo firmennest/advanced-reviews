@@ -2,7 +2,7 @@
 
 /**
  * @package fn_adv_rev
- * @version 0.8.2
+ * @version 1.0
  */
 
 /*
