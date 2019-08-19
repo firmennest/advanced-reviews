@@ -38,7 +38,7 @@ function fn_adv_rev_slider($attr)
   if($attr['style'] === 'left'){
     $advRev_query = new WP_Query( $args ); ?>
     <?php if ( $advRev_query->have_posts() ) :
-      ?><div class="uk-position-relative uk-padding" uk-height-match="target: .fn-adv-rev-content">
+      ?><div class="uk-position-relative" uk-height-match="target: .fn-adv-rev-content">
         <div uk-slider>
           <ul class="uk-slider-items uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m">
             <?php while ( $advRev_query->have_posts() ) : $advRev_query->the_post();
@@ -63,7 +63,7 @@ function fn_adv_rev_slider($attr)
                     ?>
                   </div>
                   <div class="uk-width-2-3">
-                    <div class="fn-adv-rev-content uk-flex uk-padding">
+                    <div class="fn-adv-rev-content uk-flex uk-padding uk-padding-remove-left">
                       <div class="uk-width-1-1">
                         <?php if(!empty($fnAdvReviewMeta['title'])){
                           ?><div class="fn-adv-rev-title uk-h3"><?php echo $fnAdvReviewMeta['title']; ?></div><?php
@@ -72,7 +72,7 @@ function fn_adv_rev_slider($attr)
                       </div>
                     </div>
                     <div class="fn-adv-rev-details">
-                      <div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
+                      <div class="uk-flex uk-flex-middle uk-grid-small" uk-grid>
                         <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
                         <?php
                         $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');
@@ -107,7 +107,7 @@ function fn_adv_rev_slider($attr)
   }else{
     $advRev_query = new WP_Query( $args ); ?>
     <?php if ( $advRev_query->have_posts() ) :
-      ?><div class="uk-position-relative uk-padding uk-text-center" uk-height-match="target: .fn-adv-rev-content">
+      ?><div class="uk-position-relative uk-text-center" uk-height-match="target: .fn-adv-rev-content">
         <div uk-slider>
           <ul class="uk-slider-items uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m">
             <?php while ( $advRev_query->have_posts() ) : $advRev_query->the_post();
