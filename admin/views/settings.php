@@ -4,20 +4,19 @@ function fn_adv_rev_admin_settings(){
 	if ( isset( $_POST['fn_adv_rev_setting'] ) ) {
 		$settings = $_POST['fn_adv_rev_setting'];
 		foreach ($settings as $setting => $settingAr) {
-			if($setting === 'questions'){
-				foreach ($settingAr as $key => $value) {
-					 $qValues[$key] .= $value;
-				}
-				$qValues = array_filter($qValues);
-				$fieldKey = 'fn_adv_rev_setting['. $setting . ']';
-				update_option( $fieldKey, $qValues );
-			}else if($setting === 'general'){
+			if($setting === 'general'){
 				$fieldKey = 'fn_adv_rev_setting['. $setting . ']';
 				foreach ($settingAr as $key => $value) {
-					 $gValues[$key] .= $value;
+					if(is_array($value)){
+						$arrayKey = $key;
+						foreach ($value as $key => $content) {
+						 $gValues[$arrayKey][$key] .= $content;
+						}
+					}else{
+						$gValues[$key] .= $value;
+					}
+					update_option( $fieldKey, $gValues );
 				}
-				$fieldKey = 'fn_adv_rev_setting['. $setting . ']';
-				update_option( $fieldKey, $gValues );
 			}else if($setting === 'fields'){
 				$fieldKey = 'fn_adv_rev_setting['. $setting . ']';
 				$fValues = array();
@@ -27,6 +26,13 @@ function fn_adv_rev_admin_settings(){
 					}
 				}
 				update_option( $fieldKey, $fValues );
+			}else if($setting === 'questions'){
+				$fieldKey = 'fn_adv_rev_setting['. $setting . ']';
+				foreach ($settingAr as $key => $value) {
+					 $qValues[$key] .= $value;
+				}
+				$qValues = array_filter($qValues);
+				update_option( $fieldKey, $qValues );
 			}
 		}
 		if (!array_key_exists('general', $settings)) {
@@ -64,6 +70,21 @@ function fn_adv_rev_admin_settings(){
 		            <label><input class="uk-checkbox" type="checkbox" name="fn_adv_rev_setting[general][taxonomy]" <?php if ($settingsGeneral['taxonomy'] === 'on') echo 'checked'; ?>> Kategorien aktivieren</label>
 			        </div>
 						</fieldset>
+						<div class="uk-h4">Labels</div>
+						<fieldset class="uk-fieldset">
+							<div class="uk-margin uk-grid-small uk-child-width-1-3 uk-grid">
+								<div class=""><input class="uk-input" type="text" name="fn_adv_rev_setting[general][label][name]" value="<?php if (!empty($settingsGeneral['label']['name'])) echo $settingsGeneral['label']['name']; ?>" placeholder="Eigene Beschriftung für Name"></div>
+							</div>
+							<div class="uk-margin uk-grid-small uk-child-width-1-3 uk-grid">
+								<div class=""><input class="uk-input" type="text" name="fn_adv_rev_setting[general][label][message]" value="<?php if (!empty($settingsGeneral['label']['message'])) echo $settingsGeneral['label']['message']; ?>" placeholder="Eigene Beschriftung für Nachricht"></div>
+							</div>
+						</fieldset>
+						<div class="uk-h4">Überschriften</div>
+						<fieldset class="uk-fieldset">
+							<div class="uk-margin uk-grid-small uk-child-width-1-1 uk-grid">
+		            <div class=""><input class="uk-input" type="text" name="fn_adv_rev_setting[general][headline][questions]" value="<?php if (!empty($settingsGeneral['headline']['questions'])) echo $settingsGeneral['headline']['questions']; ?>" placeholder="Eigene Überschrift für den Sternebereich im Formular"></div>
+			        </div>
+						</fieldset>
 					</div>
 					<div class="uk-width-1-3@m">
 						<div class="uk-h3">Platzhalterbild</div>
@@ -91,23 +112,37 @@ function fn_adv_rev_admin_settings(){
 						</fieldset>
 					</div>
 				</div>
-				<div class="uk-h3">Zusätzliche Felder</div>
+				<div class="uk-h3">Felder</div>
 				<fieldset class="uk-fieldset"><?php
 						$fields = get_option('fn_adv_rev_setting[fields]');
 						if($fields){
 							foreach ($fields as $key => $field) {
 								$req = intVal($field['required']);
 								?><div class="fn_adv_rev_add_field_frame uk-margin-small uk-grid-small uk-child-width-auto uk-grid">
-									<div class=""><input class="uk-input" type="text" name="fn_adv_rev_setting[fields][<?php echo $key; ?>][label]" value="<?php echo $field['label']; ?>"></div>
 									<div class="">
+										<label for="">Beschriftung</label>
+										<input class="uk-input" type="text" name="fn_adv_rev_setting[fields][<?php echo $key; ?>][label]" value="<?php echo $field['label']; ?>">
+									</div>
+									<div class="">
+										<label for="">Typ</label>
 										<select class="uk-select" name="fn_adv_rev_setting[fields][<?php echo $key; ?>][type]" id="">
 											<option value="text" selected>text</option>
 										</select>
 									</div>
 									<div class="">
+										<label for="">Pflichtfeld</label>
 										<select class="uk-select" name="fn_adv_rev_setting[fields][<?php echo $key; ?>][required]" id="">
 											<option value="0" <?php if(!$req)echo 'selected'; ?>>Optional</option>
 											<option value="1" <?php if($req)echo 'selected';?>>Pflicht</option>
+										</select>
+									</div>
+									<div class="">
+										<label for="">Ausgabeposition</label>
+										<select class="uk-select" name="fn_adv_rev_setting[fields][<?php echo $key; ?>][position]" id="">
+											<option value="">Bitte wählen...</option>
+											<option value="top" <?php if($field['position'] === 'top') echo 'selected'; ?>>Über der Nachricht</option>
+											<option value="bottom" <?php if($field['position'] === 'bottom') echo 'selected'; ?>>Unter der Nachricht</option>
+											<option value="nextTo" <?php if($field['position'] === 'nextTo') echo 'selected'; ?>>Neben dem Namen</option>
 										</select>
 									</div>
 								</div><?php
@@ -131,7 +166,7 @@ function fn_adv_rev_admin_settings(){
 	        ?>
 				</fieldset>
 				<div onclick="fn_adv_rev_add_field(jQuery(this),'fn_adv_rev_setting[fields]');" class="uk-button uk-button-small uk-button-secondary">Feld hinzufügen</div>
-				<div class="uk-h3">Zusätzliche Fragen (Sternebewertungen)</div>
+				<div class="uk-h3">Fragen (Sternebewertungen)</div>
 				<fieldset class="uk-fieldset">
 					<?php
 						$questions = get_option('fn_adv_rev_setting[questions]');

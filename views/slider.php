@@ -2,6 +2,28 @@
 
 defined( 'ABSPATH' ) || exit;
 
+function fn_adv_rev_fields_pos($fieldsMeta,$pos){
+  $fields = get_option('fn_adv_rev_setting[fields]');
+  if($fieldsMeta){
+    foreach ($fieldsMeta as $key => $field) {
+      if($pos === 'top' || $pos === 'bottom'){
+        ?><div class="uk-grid uk-flex uk-flex-middle uk-flex-center uk-grid-collapse"><?php
+      }
+      foreach ($field as $key => $value) {
+        if($fields[$key]['position'] === $pos){
+          if (!empty($value['label'])) {
+            ?><div><div class="uk-display-inline-block uk-padding-small"><span class="fn-adv-rev-field-<?php echo sanitize_title($value['label']); ?> uk-text-meta"><?php echo $value['value']; ?></span></div></div><?php
+          }
+
+        }
+      }
+      if($pos === 'top' || $pos === 'bottom'){
+        ?></div><?php
+      }
+    }
+  }
+}
+
 add_shortcode('advanced-reviews-slider','fn_adv_rev_slider');
 function fn_adv_rev_slider($attr)
 {
@@ -43,55 +65,43 @@ function fn_adv_rev_slider($attr)
           <ul class="uk-slider-items uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m">
             <?php while ( $advRev_query->have_posts() ) : $advRev_query->the_post();
               $fnAdvReview = new fnAdvReview;
-              $fnAdvReviewMeta = $fnAdvReview->getMeta(get_the_ID());
+              $fnAdvReviewRating = $fnAdvReview->getRating(get_the_ID());
+              $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');
               ?><li>
-                <div class="uk-flex uk-flex-middle uk-grid-small" uk-grid>
-                  <div class="uk-width-1-3">
-                    <?php
-                    if ($settingsGeneral['placeholderImageStatus'] === 'on'){
-                      $image_id = intVal($settingsGeneral['placeholderImage']);
-                      if(has_post_thumbnail()){
-                        ?><div class="fn-adv-rev-image">
-                          <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="">
-                        </div><?php
-                      }else if($image_id > 0){
-                        ?><div class="fn-adv-rev-image">
-                          <img src="<?php echo wp_get_attachment_image_src( $image_id, 'medium' )[0]; ?>" alt="">
-                        </div><?php
-                      }
+                <div class="uk-flex uk-flex-middle uk-grid-small uk-margin-large-left uk-margin-large-right" uk-grid><?php
+                  if ($settingsGeneral['placeholderImageStatus'] === 'on'){
+                    ?><div class="uk-width-1-3"><?php
+                    $image_id = intVal($settingsGeneral['placeholderImage']);
+                    if(has_post_thumbnail()){
+                      ?><div class="fn-adv-rev-image">
+                        <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="">
+                      </div><?php
+                    }else if($image_id > 0){
+                      ?><div class="fn-adv-rev-image">
+                        <img src="<?php echo wp_get_attachment_image_src( $image_id, 'medium' )[0]; ?>" alt="">
+                      </div><?php
                     }
-                    ?>
-                  </div>
-                  <div class="uk-width-2-3">
+                    ?></div><?php
+                  }
+                  ?><div class="<?php if ($settingsGeneral['placeholderImageStatus'] === 'on'){ ?>uk-width-2-3<?php }else{ ?>uk-width-1-1<?php } ?>">
                     <div class="fn-adv-rev-content uk-flex">
-                      <div class="uk-width-1-1">
-                        <?php if(!empty($fnAdvReviewMeta['title'])){
-                          ?><div class="fn-adv-rev-title uk-h3"><?php echo $fnAdvReviewMeta['title']; ?></div><?php
-                        }
-                        the_content(); ?>
-                      </div>
+                      <div class="uk-width-1-1"><?php
+                        echo fn_adv_rev_fields_pos($fields,'top');
+                        ?><div class="fn-adv-rev-message"><?php the_content(); ?></div><?php
+                        echo fn_adv_rev_fields_pos($fields,'bottom');
+                      ?></div>
                     </div>
                     <div class="fn-adv-rev-details">
                       <div class="uk-flex uk-flex-middle uk-grid-small" uk-grid>
                         <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
-                        <?php
-                        $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');
-                        if($fields){
-                          foreach ($fields as $key => $field) {
-                            foreach ($field as $value) {
-                              if (!empty($value['label'])) {
-                                ?><span class="fn-adv-rev-field-<?php echo sanitize_title($value['label']); ?>"><?php echo $value['label']; ?></span><?php
-                              }
-                            }
-                          }
-                        }
-                        ?>
+                        <?php echo fn_adv_rev_fields_pos($fields,'nextTo'); ?>
                       </div>
                     </div>
                     <?php
-                    echo $fnAdvReview->getStars($fnAdvReviewMeta['value']);
-                    ?>
-                  </div>
+                    if($fnAdvReviewRating){
+                      echo $fnAdvReview->getStars($fnAdvReviewRating);
+                    }
+                  ?></div>
                 </div>
               </li><?php
             endwhile; ?>
@@ -112,7 +122,9 @@ function fn_adv_rev_slider($attr)
           <ul class="uk-slider-items uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m">
             <?php while ( $advRev_query->have_posts() ) : $advRev_query->the_post();
               $fnAdvReview = new fnAdvReview;
-              $fnAdvReviewMeta = $fnAdvReview->getMeta(get_the_ID());
+              $fnAdvReviewRating = $fnAdvReview->getRating(get_the_ID());
+              $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');
+
               ?><li><?php
                 if ($settingsGeneral['placeholderImageStatus'] === 'on'){
                   $image_id = intVal($settingsGeneral['placeholderImage']);
@@ -126,30 +138,20 @@ function fn_adv_rev_slider($attr)
                     </div><?php
                   }
                 }
-                echo $fnAdvReview->getStars($fnAdvReviewMeta['value']);
-                ?><div class="fn-adv-rev-content uk-flex uk-padding">
-                  <div class="uk-width-1-1">
-                    <?php if(!empty($fnAdvReviewMeta['title'])){
-                      ?><div class="fn-adv-rev-title uk-h3"><?php echo $fnAdvReviewMeta['title']; ?></div><?php
-                    }
-                    the_content(); ?>
-                  </div>
+                if($fnAdvReviewRating){
+                  echo $fnAdvReview->getStars($fnAdvReviewRating);
+                }
+                ?><div class="fn-adv-rev-content uk-flex">
+                  <div class="uk-width-1-1"><?php
+                    echo fn_adv_rev_fields_pos($fields,'top');
+                    ?><div class="fn-adv-rev-message uk-margin-large-left uk-margin-large-right uk-padding-small"><?php the_content(); ?></div><?php
+                    echo fn_adv_rev_fields_pos($fields,'bottom');
+                  ?></div>
                 </div>
                 <div class="fn-adv-rev-details">
                   <div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
                     <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
-                    <?php
-                    $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');
-                    if($fields){
-                      foreach ($fields as $key => $field) {
-                        foreach ($field as $value) {
-                          if (!empty($value['label'])) {
-                            ?><span class="fn-adv-rev-field-<?php echo sanitize_title($value['label']); ?>"><?php echo $value['label']; ?></span><?php
-                          }
-                        }
-                      }
-                    }
-                    ?>
+                    <?php echo fn_adv_rev_fields_pos($fields,'nextTo'); ?>
                   </div>
                 </div>
               </li><?php

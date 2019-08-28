@@ -120,42 +120,29 @@ add_action('add_meta_boxes', 'fn_adv_rev_add_meta_boxes', 1);
 function fn_adv_rev_add_meta_boxes() {
 	$screen = 'fn-adv-rev';
 
-	add_meta_box(
-		'fn_adv_rev_rating_box_details',
-		__( 'Details', 'firmennest | Advanced Reviews' ),
-		'fn_adv_rev_add_fields',
-		$screen,
-		'advanced',
-		'high'
-	);
-
   $fields = get_option('fn_adv_rev_setting[fields]');
-  if(is_array($fields)){
-    add_meta_box(
-      'fn_adv_rev_rating_box_fields',
-      __( 'Zusätzliche Felder', 'firmennest | Advanced Reviews' ),
-      'fn_adv_rev_get_fields',
-      $screen,
-      'advanced',
-      'high'
-    );
-  }
+  add_meta_box(
+    'fn_adv_rev_rating_box_fields',
+    __( 'Felder', 'firmennest | Advanced Reviews' ),
+    'fn_adv_rev_get_fields',
+    $screen,
+    'advanced',
+    'high'
+  );
 
   $questions = get_option('fn_adv_rev_setting[questions]');
-  if(is_array($questions)){
-    add_meta_box(
-      'fn_adv_rev_rating_box_questions',
-      __( 'Zusätzliche Fragen', 'firmennest | Advanced Reviews' ),
-      'fn_adv_rev_get_questions',
-      $screen,
-      'advanced',
-      'high'
-    );
-  }
+  add_meta_box(
+    'fn_adv_rev_rating_box_questions',
+    __( 'Fragen', 'firmennest | Advanced Reviews' ),
+    'fn_adv_rev_get_questions',
+    $screen,
+    'advanced',
+    'high'
+  );
 }
 function fn_adv_rev_get_questions($post){
   $questions = get_option('fn_adv_rev_setting[questions]');
-  if(is_array($questions)){
+  if(is_array($questions) && count($questions) > 0  ){
     ?><div class="uk-form uk-padding-small"><?php
     $fn_adv_rev_questions = get_post_meta($post->ID, 'fn_adv_rev_questions', true);
     foreach ($questions as $key => $value) {
@@ -166,119 +153,60 @@ function fn_adv_rev_get_questions($post){
       </div><?php
     }
     ?></div><?php
+  }else{
+    ?><div class="uk-padding-small"><div class="uk-alert uk-alert-warning uk-text-center">
+      <?php _e('Legen Sie in den Einstellungen mindestens eine Frage an, damit Sie bewertet werden können.'); ?><br /> <a href="<?php echo admin_url(); ?>edit.php?post_type=fn-adv-rev&page=fn-adv-rev-settings" class="uk-button uk-button-secondary uk-button-small uk-margin-top">Einstellungen</a></div></div><?php
   }
 }
 function fn_adv_rev_get_fields($post){
   $fields = get_option('fn_adv_rev_setting[fields]');
-  if(is_array($fields)){
+  if(is_array($fields) && count($fields) > 0 ){
     ?><div class="uk-form uk-padding-small"><?php
     $fn_adv_rev_fields = get_post_meta($post->ID, 'fn_adv_rev_fields', true);
     foreach ($fields as $key => $field) {
       ?><div class="uk-margin">
           <label for="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>" class="uk-h5"><?php echo $field['label']; ?></label>
-          <input id="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>"" name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][label]'; ?>" type="<?php echo $field['type']; ?>" value="<?php if(is_array($fn_adv_rev_fields)) echo $fn_adv_rev_fields[$key]['label']; ?>">
-          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][type]'; ?>" type="hidden">
-          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][required]'; ?>" type="hidden">
+          <input id="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>"" name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][value]'; ?>" type="<?php echo $field['type']; ?>" value="<?php if(is_array($fn_adv_rev_fields)) echo $fn_adv_rev_fields[$key]['label']; ?>">
+          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][label]'; ?>" value="<?php echo $fields[$key]['label']; ?>" type="hidden">
+          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][type]'; ?>" value="<?php echo $fields[$key]['type']; ?>" type="hidden">
+          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][required]'; ?>" value="<?php echo $fields[$key]['required']; ?>" type="hidden">
+          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][position]'; ?>" value="<?php echo $fields[$key]['position']; ?>" type="hidden">
           <?php wp_nonce_field( 'fn_adv_rev_fields_save['.$key.']', 'fn_adv_rev_fields_save_nonce['.$key.']' ); ?>
       </div><?php
     }
     ?></div><?php
-  }
-}
-
-function fn_adv_rev_add_fields($post) {
-
-  $fn_adv_rev_rating = get_post_meta($post->ID, 'fn_adv_rev_rating', true);
-  if($fn_adv_rev_rating){
-    foreach ($fn_adv_rev_rating as $key => $value) {
-      if (empty($fn_adv_rev_rating[$key]) || !$fn_adv_rev_rating[$key]) {
-        $fn_adv_rev_rating[$key] = '';
-      }
-    }
   }else{
-    $fn_adv_rev_rating = array(
-      'title' => '',
-      'value' => 1,
-    );
-    add_post_meta( $post->ID, 'fn_adv_rev_rating', $fn_adv_rev_rating , true );
+    ?><div class="uk-padding-small"><div class="uk-alert uk-alert-warning uk-text-center">
+      <?php _e('Legen Sie in den Einstellungen Felder an, um zusätzliche Informationen abzufragen. Es wird ansonsten nur der Name und eine Nachricht abgefragt.'); ?><br /> <a href="<?php echo admin_url(); ?>edit.php?post_type=fn-adv-rev&page=fn-adv-rev-settings" class="uk-button uk-button-secondary uk-button-small uk-margin-top">Einstellungen</a></div></div><?php
   }
-  $fields['title']['label'] = sprintf(
-    '%s',
-    'Titel'
-  );
-	$fields['title']['input'] = sprintf(
-		'<input id="%s" name="%s" type="%s" value="%s" style="%s">',
-		'fn_adv_rev_rating_title',
-		'fn_adv_rev_rating[title]',
-		'text',
-		$fn_adv_rev_rating['title'],
-    'width: 100%'
-	);
-
-  $fields['value']['label'] = sprintf(
-    '%s',
-    'Sterne'
-  );
-	$fields['value']['input'] = sprintf(
-		'<input id="%s" name="%s" type="%s" value="%s" style="%s" min="1" max="5">',
-		'fn_adv_rev_rating_value',
-		'fn_adv_rev_rating[value]',
-		'number',
-		$fn_adv_rev_rating['value'],
-    'width: 100%'
-	);
-
-  ?><div class="uk-form-horizontal uk-padding-small"><?php
-  	foreach ($fields as $key => $field) {
-      ?><div class="uk-margin">
-          <label class="uk-form-label uk-h5"><?php echo $field['label']; ?></label>
-          <div class="uk-form-controls">
-            <?php wp_nonce_field( 'fn_adv_rev_rating_save['.$key.']', 'fn_adv_rev_rating_save_nonce['.$key.']' );
-            echo $field['input'];
-          ?></div>
-      </div><?php
-    }
-  ?></div><?php
 }
-
-
 add_action('save_post', 'fn_adv_rev_save_post');
 function fn_adv_rev_save_post($post_id) {
-  if ( ! isset( $_POST['fn_adv_rev_rating_save_nonce'] ) )
-    return $post_id;
-  foreach ($_POST['fn_adv_rev_rating_save_nonce'] as $key => $value ) {
-    if ( ! isset( $value ) )
-      return $post_id;
+  $saveError = 0;
 
-    if ( !wp_verify_nonce( $_POST['fn_adv_rev_rating_save_nonce'][$key], 'fn_adv_rev_rating_save['.$key.']' ) )
-      return $post_id;
-
-    $fn_adv_rev_rating[$key] .= $_POST['fn_adv_rev_rating'][$key];
+  //Save Questions
+  if ( isset( $_POST['fn_adv_rev_questions_save_nonce'] ) ){
+    foreach ($_POST['fn_adv_rev_questions_save_nonce'] as $key => $value ) {
+      if ( isset( $value ) ){
+        if (wp_verify_nonce( $_POST['fn_adv_rev_questions_save_nonce'][$key], 'fn_adv_rev_questions_save['.$key.']' ) ){
+          $fn_adv_rev_questions[$key] .= $_POST['fn_adv_rev_questions'][$key];
+        }
+      }
+    }
+    update_post_meta($post_id, 'fn_adv_rev_questions', $fn_adv_rev_questions);
   }
-  update_post_meta($post_id, 'fn_adv_rev_rating', $fn_adv_rev_rating);
 
-  if ( ! isset( $_POST['fn_adv_rev_questions_save_nonce'] ) )
-    return $post_id;
-  foreach ($_POST['fn_adv_rev_questions_save_nonce'] as $key => $value ) {
-    if ( ! isset( $value ) )
-      return $post_id;
-    if ( !wp_verify_nonce( $_POST['fn_adv_rev_questions_save_nonce'][$key], 'fn_adv_rev_questions_save['.$key.']' ) )
-      return $post_id;
-
-    $fn_adv_rev_questions[$key] .= $_POST['fn_adv_rev_questions'][$key];
-  }
-  update_post_meta($post_id, 'fn_adv_rev_questions', $fn_adv_rev_questions);
-
-  if ( ! isset( $_POST['fn_adv_rev_fields_save_nonce'] ) )
-    return $post_id;
+  //Save Fields
+  if ( isset( $_POST['fn_adv_rev_fields_save_nonce'] ) ){
     $fn_adv_rev_fields = array();
-  foreach ($_POST['fn_adv_rev_fields_save_nonce'] as $key => $value ) {
-    if ( ! isset( $value ) )
-      return $post_id;
-    if ( !wp_verify_nonce( $_POST['fn_adv_rev_fields_save_nonce'][$key], 'fn_adv_rev_fields_save['.$key.']' ) )
-      return $post_id;
-
-      array_push($fn_adv_rev_fields ,$_POST['fn_adv_rev_fields'][$key]);
+    foreach ($_POST['fn_adv_rev_fields_save_nonce'] as $key => $value ) {
+      if ( isset( $value ) ){
+        if ( wp_verify_nonce( $_POST['fn_adv_rev_fields_save_nonce'][$key], 'fn_adv_rev_fields_save['.$key.']' ) ){
+          array_push($fn_adv_rev_fields ,$_POST['fn_adv_rev_fields'][$key]);
+        }
+      }
+    }
+    update_post_meta($post_id, 'fn_adv_rev_fields', $fn_adv_rev_fields);
   }
-  update_post_meta($post_id, 'fn_adv_rev_fields', $fn_adv_rev_fields);
+  return $post_id;
 }

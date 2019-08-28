@@ -3,15 +3,9 @@ add_action('wp_ajax_fnarsend', 'fnAdvReview_send');
 add_action('wp_ajax_nopriv_fnarsend', 'fnAdvReview_send');
 function fnAdvReview_send(){
   $fnAdvReview = $_POST['fnAdvReview'];
-  $fnAdvReviewMeta = array();
-  $fnAdvReviewMeta['title'] .= $fnAdvReview['title'];
-  $fnAdvReviewMeta['value'] .= $fnAdvReview['stars'];
-
 
   $fnAdvReviewQuestions = $fnAdvReview['questions'];
-
   $fnAdvReviewFields = $fnAdvReview['fields'];
-
 
   $fn_adv_rev_post = array(
     'post_type' 		=> 'fn-adv-rev',
@@ -21,7 +15,6 @@ function fnAdvReview_send(){
     'post_author'   => 1,
     'post_date'			=> date('Y-m-d H:i'),
     'meta_input' => array(
-      'fn_adv_rev_rating' => $fnAdvReviewMeta,
       'fn_adv_rev_questions' => $fnAdvReviewQuestions,
       'fn_adv_rev_fields' => $fnAdvReviewFields,
     )

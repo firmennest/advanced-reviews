@@ -5,9 +5,11 @@ defined( 'ABSPATH' ) || exit;
 
 class fnAdvReview {
 
-    function getMeta($id){
-      $fn_adv_rev_rating = get_post_meta( $id, 'fn_adv_rev_rating', true );
-      if(is_array($fn_adv_rev_rating) && count($fn_adv_rev_rating)){
+    function getRating($id){
+      $fn_adv_rev_ratings = get_post_meta( get_the_ID(), 'fn_adv_rev_questions' );
+      $fn_adv_rev_ratings = $fn_adv_rev_ratings[0];
+      if(is_array($fn_adv_rev_ratings) && count($fn_adv_rev_ratings)){
+        $fn_adv_rev_rating = round(array_sum($fn_adv_rev_ratings) / count($fn_adv_rev_ratings));
         return $fn_adv_rev_rating;
       }else{
         return false;
@@ -28,12 +30,5 @@ class fnAdvReview {
           }
         ?>
       </div><?php
-    }
-
-    function getTitle(){
-      $ratingTitle = $fn_adv_rev_rating['title'];
-      if($ratingTitle){
-        ?><div class="fn-adv-rev-title uk-h3"><?php echo $ratingTitle; ?></div><?php
-      }
     }
 }
