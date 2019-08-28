@@ -5,16 +5,21 @@ defined( 'ABSPATH' ) || exit;
 function fn_adv_rev_fields_pos($fieldsMeta,$pos){
   $fields = get_option('fn_adv_rev_setting[fields]');
   if($fieldsMeta){
+    $extractedFields = array();
     foreach ($fieldsMeta as $key => $field) {
-      if($pos === 'top' || $pos === 'bottom'){
-        ?><div class="uk-grid uk-flex uk-flex-middle uk-flex-center uk-grid-collapse"><?php
-      }
       foreach ($field as $key => $value) {
         if($fields[$key]['position'] === $pos){
-          if (!empty($value['label'])) {
-            ?><div><div class="uk-display-inline-block uk-padding-small"><span class="fn-adv-rev-field-<?php echo sanitize_title($value['label']); ?> uk-text-meta"><?php echo $value['value']; ?></span></div></div><?php
-          }
-
+          array_push($extractedFields,$value);
+        }
+      }
+    }
+    if(is_array($extractedFields) && count($extractedFields) > 0){
+      if($pos === 'top' || $pos === 'bottom'){
+        ?><div class="fn-adv-rev-field-<?php echo $pos; ?> uk-display-inline-block"><?php
+      }
+      foreach ($extractedFields as $value) {
+        if (!empty($value['label'])) {
+          ?><span class="fn-adv-rev-field-<?php echo sanitize_title($value['label']); ?> uk-text-meta"><?php echo $value['value']; ?></span><?php
         }
       }
       if($pos === 'top' || $pos === 'bottom'){
