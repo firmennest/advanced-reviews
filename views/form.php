@@ -50,7 +50,7 @@ function fn_adv_rev_form($attr)
     }
     ?><div class="uk-margin-bottom">
       <label class="uk-form-label"><?php
-        if(empty($settingsGeneral['label']['name'])){
+        if(empty($settingsGeneral['label']['message'])){
           _e('Nachricht', 'firmennest | Advanced Reviews');
         }else{
           _e($settingsGeneral['label']['message'], 'firmennest | Advanced Reviews');
