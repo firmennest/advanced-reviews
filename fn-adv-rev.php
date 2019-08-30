@@ -28,10 +28,10 @@ require_once('admin/ajax.php');
 require_once('admin/views/settings.php');
 require_once('admin/views/docu.php');
 
-require_once('views/overview.php');
-require_once('views/slider.php');
-require_once('views/form.php');
-require_once('views/snippet.php');
+require_once('views/fn-adv-rev/overview.php');
+require_once('views/fn-adv-rev/slider.php');
+require_once('views/fn-adv-rev/form.php');
+require_once('views/fn-adv-rev/snippet.php');
 
 
 function fn_adv_rev_addLoader() {

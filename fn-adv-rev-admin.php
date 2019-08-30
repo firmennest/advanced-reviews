@@ -65,11 +65,7 @@ function fn_adv_rev_admin_css() {
   $dirURL = plugin_dir_url( __FILE__ );
 
   if ( get_current_screen()->post_type === 'fn-adv-rev' ) {
-    wp_register_style( 'fn-adv-rev-css', $dirURL . 'assets/css/main.css', array(), filemtime( $dirPath . 'assets/css/main.css'), false);
-    wp_enqueue_style( 'fn-adv-rev-css');
-  }
-	if ( !is_admin() ) {
-    wp_register_style( 'fn-adv-rev-css', $dirURL . 'assets/css/main.css', array(), filemtime( $dirPath . 'assets/css/main.css'), false);
+    wp_register_style( 'fn-adv-rev-css', $dirURL . 'admin/assets/css/main.css', array(), filemtime( $dirPath . 'admin/assets/css/main.css'), false);
     wp_enqueue_style( 'fn-adv-rev-css');
   }
 }
@@ -81,8 +77,11 @@ function fn_adv_rev_css() {
 	$dirPath = plugin_dir_path( __FILE__ );
   $dirURL = plugin_dir_url( __FILE__ );
   if ( !is_admin() ) {
-    wp_register_style( 'fnadvrev-loader-css', $dirURL . '/assets/css/fnadvrev-loader.css', array(), filemtime($dirPath . '/assets/css/fnadvrev-loader.css'), false);
-    wp_enqueue_style( 'fnadvrev-loader-css');
+    wp_register_style( 'fn-adv-rev-loader-css', $dirURL . '/assets/css/fnadvrev-loader.css', array(), filemtime($dirPath . '/assets/css/fnadvrev-loader.css'), false);
+    wp_enqueue_style( 'fn-adv-rev-loader-css');
+
+    wp_register_style( 'fn-adv-rev-css', $dirURL . 'assets/uikit/dist/css/uikit-core.min.css', array(), filemtime( $dirPath . 'assets/uikit/dist/css/uikit-core.css'), false);
+    wp_enqueue_style( 'fn-adv-rev-css');
   }
 }
 add_action( 'wp_enqueue_styles', 'fn_adv_rev_css' );
@@ -92,8 +91,16 @@ function fn_adv_rev_js() {
 	$dirPath = plugin_dir_path( __FILE__ );
   $dirURL = plugin_dir_url( __FILE__ );
   if ( !is_admin() ) {
-    wp_register_script( 'fn-adv-rev-base-js', $dirURL . '/assets/js/base-min.js', array(), filemtime($dirPath . '/assets/js/base-min.js'), true);
+    if ( ! wp_script_is( 'jquery', 'enqueued' )) {
+      wp_enqueue_script( 'jquery' );
+    }
+
+    wp_register_script( 'fn-adv-rev-fw-js', $dirURL . 'assets/uikit/dist/js/uikit.min.js', array('jquery'), filemtime($dirPath . 'assets/uikit/dist/js/uikit.min.js'), true);
+    wp_enqueue_script( 'fn-adv-rev-fw-js');
+
+    wp_register_script( 'fn-adv-rev-base-js', $dirURL . 'assets/js/base-min.js', array('jquery'), filemtime($dirPath . 'assets/js/base-min.js'), true);
     wp_enqueue_script( 'fn-adv-rev-base-js');
+
   }
 }
 add_action( 'wp_enqueue_scripts ', 'fn_adv_rev_js');

@@ -44,9 +44,9 @@ function fn_adv_rev_slider($attr)
     'advanced-reviews-slider'
   );
 
-  $postNumber = intVal($attr['anzahl']);
-  $postOffset = intVal($attr['offset']);
-  $postSet = intVal($attr['set']);
+  $postNumber = (int)$attr['anzahl'];
+  $postOffset = (int)$attr['offset'];
+  $postSet = (int)$attr['set'];
 
   if (!is_numeric($postSet)) {
     $postSet = 1;
@@ -76,7 +76,7 @@ function fn_adv_rev_slider($attr)
                 <div class="uk-flex uk-flex-middle uk-grid-small uk-margin-large-left uk-margin-large-right" uk-grid><?php
                   if ($settingsGeneral['placeholderImageStatus'] === 'on'){
                     ?><div class="uk-width-1-3"><?php
-                    $image_id = intVal($settingsGeneral['placeholderImage']);
+                    $image_id = (int)$settingsGeneral['placeholderImage'];
                     if(has_post_thumbnail()){
                       ?><div class="fn-adv-rev-image">
                         <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="">
@@ -132,7 +132,7 @@ function fn_adv_rev_slider($attr)
 
               ?><li><?php
                 if ($settingsGeneral['placeholderImageStatus'] === 'on'){
-                  $image_id = intVal($settingsGeneral['placeholderImage']);
+                  $image_id = $settingsGeneral['placeholderImage'];
                   if(has_post_thumbnail()){
                     ?><div class="fn-adv-rev-image uk-margin-bottom">
                       <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="">

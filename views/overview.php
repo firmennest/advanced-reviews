@@ -13,9 +13,9 @@ function fn_adv_rev_overview($attr)
     'advanced-reviews-slider'
   );
 
-  $postNumber = intVal($attr['anzahl']);
-  $postOffset = intVal($attr['offset']);
-  $postSet = intVal($attr['grid']);
+  $postNumber = (int)$attr['anzahl'];
+  $postOffset = (int)$attr['offset'];
+  $postSet = (int)$attr['grid'];
 
   if (!is_numeric($postSet)) {
     $postSet = 1;
@@ -66,6 +66,5 @@ function fn_adv_rev_overview($attr)
   <?php wp_reset_postdata(); ?>
   <?php else : ?>
   <?php endif;
-
   return ob_get_clean();
 }

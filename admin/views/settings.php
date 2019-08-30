@@ -78,6 +78,9 @@ function fn_adv_rev_admin_settings(){
 							<div class="uk-margin uk-grid-small uk-child-width-1-3 uk-grid">
 								<div class=""><input class="uk-input" type="text" name="fn_adv_rev_setting[general][label][message]" value="<?php if (!empty($settingsGeneral['label']['message'])) echo $settingsGeneral['label']['message']; ?>" placeholder="Eigene Beschriftung für Nachricht"></div>
 							</div>
+							<div class="uk-margin uk-grid-small uk-child-width-1-3 uk-grid">
+								<div class=""><input class="uk-input" type="text" name="fn_adv_rev_setting[general][label][send]" value="<?php if (!empty($settingsGeneral['label']['send'])) echo $settingsGeneral['label']['send']; ?>" placeholder="Eigene Beschriftung für den Absende-Button"></div>
+							</div>
 						</fieldset>
 						<div class="uk-h4">Überschriften</div>
 						<fieldset class="uk-fieldset">
