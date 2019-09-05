@@ -26,7 +26,8 @@ function fn_adv_rev_post_type() {
     'supports'              => array(
                               'title',
                               'editor',
-                              'revisions'
+                              'revisions',
+                              'thumbnail',
                             ),
     'hierarchical'          => false,
     'public'                => false,
@@ -166,7 +167,7 @@ function fn_adv_rev_get_fields($post){
     foreach ($fields as $key => $field) {
       ?><div class="uk-margin">
           <label for="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>" class="uk-h5"><?php echo $field['label']; ?></label>
-          <input id="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>"" name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][value]'; ?>" type="<?php echo $field['type']; ?>" value="<?php if(is_array($fn_adv_rev_fields)) echo $fn_adv_rev_fields[$key]['label']; ?>">
+          <input id="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>"" name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][value]'; ?>" type="<?php echo $field['type']; ?>" value="<?php if(is_array($fn_adv_rev_fields)) echo $fn_adv_rev_fields[$key]['value']; ?>">
           <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][label]'; ?>" value="<?php echo $fields[$key]['label']; ?>" type="hidden">
           <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][type]'; ?>" value="<?php echo $fields[$key]['type']; ?>" type="hidden">
           <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][required]'; ?>" value="<?php echo $fields[$key]['required']; ?>" type="hidden">
