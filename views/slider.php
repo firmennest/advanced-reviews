@@ -14,7 +14,8 @@ function fn_adv_rev_fields_pos($fieldsMeta,$pos){
       }
     }
     if(is_array($extractedFields) && count($extractedFields) > 0){
-      if($pos === 'top' || $pos === 'bottom'){
+      $positionsWrapper = array('topText', 'bottomText', 'topName', 'bottomName');
+      if(in_array($pos, $positionsWrapper)){
         ?><div class="fn-adv-rev-field-<?php echo $pos; ?> uk-display-inline-block"><?php
       }
       foreach ($extractedFields as $value) {
@@ -22,7 +23,7 @@ function fn_adv_rev_fields_pos($fieldsMeta,$pos){
           ?><span class="fn-adv-rev-field-<?php echo sanitize_title($value['label']); ?> uk-text-meta"><?php echo $value['value']; ?></span><?php
         }
       }
-      if($pos === 'top' || $pos === 'bottom'){
+      if(in_array($pos, $positionsWrapper)){
         ?></div><?php
       }
     }
@@ -39,6 +40,7 @@ function fn_adv_rev_slider($attr)
       'offset' => 0,
       'set' => 1,
       'style' => 'center',
+      'review' => ''
     ),
     $attr,
     'advanced-reviews-slider'
@@ -47,6 +49,9 @@ function fn_adv_rev_slider($attr)
   $postNumber = intVal($attr['anzahl']);
   $postOffset = intVal($attr['offset']);
   $postSet = intVal($attr['set']);
+
+  $postIDs = $attr['review'];
+  $postIDs = array_map('intval', explode(',',$postIDs));
 
   if (!is_numeric($postSet)) {
     $postSet = 1;
@@ -62,6 +67,12 @@ function fn_adv_rev_slider($attr)
       'order' => 'ASC',
       'offset' => $postOffset
   );
+
+  if(is_array($postIDs) && count($postIDs) > 0 && $postIDs[0] != 0){
+    $args['post__in'] = $postIDs;
+    $args['orderby'] = 'post__in';
+  }
+  
   if($attr['style'] === 'left'){
     $advRev_query = new WP_Query( $args ); ?>
     <?php if ( $advRev_query->have_posts() ) :
@@ -91,16 +102,18 @@ function fn_adv_rev_slider($attr)
                   ?><div class="<?php if ($settingsGeneral['placeholderImageStatus'] === 'on'){ ?>uk-width-2-3<?php }else{ ?>uk-width-1-1<?php } ?>">
                     <div class="fn-adv-rev-content uk-flex">
                       <div class="uk-width-1-1"><?php
-                        echo fn_adv_rev_fields_pos($fields,'top');
+                        echo fn_adv_rev_fields_pos($fields,'topText');
                         ?><div class="fn-adv-rev-message"><?php the_content(); ?></div><?php
-                        echo fn_adv_rev_fields_pos($fields,'bottom');
+                        echo fn_adv_rev_fields_pos($fields,'bottomText');
                       ?></div>
                     </div>
                     <div class="fn-adv-rev-details">
+                      <?php echo fn_adv_rev_fields_pos($fields,'topName'); ?>
                       <div class="uk-flex uk-flex-middle uk-grid-small" uk-grid>
                         <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
-                        <?php echo fn_adv_rev_fields_pos($fields,'nextTo'); ?>
+                        <?php echo fn_adv_rev_fields_pos($fields,'nextToName'); ?>
                       </div>
+                      <?php echo fn_adv_rev_fields_pos($fields,'bottomName'); ?>
                     </div>
                     <?php
                     if($fnAdvReviewRating){
@@ -149,7 +162,7 @@ function fn_adv_rev_slider($attr)
                 ?><div class="fn-adv-rev-content uk-flex">
                   <div class="uk-width-1-1"><?php
                     echo fn_adv_rev_fields_pos($fields,'top');
-                    ?><div class="fn-adv-rev-message uk-margin-large-left uk-margin-large-right uk-padding-small"><?php the_content(); ?></div><?php
+                    ?><div class="fn-adv-rev-message uk-padding-small"><?php the_content(); ?></div><?php
                     echo fn_adv_rev_fields_pos($fields,'bottom');
                   ?></div>
                 </div>

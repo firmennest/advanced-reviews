@@ -140,9 +140,11 @@ function fn_adv_rev_admin_settings(){
 										<label for="">Ausgabeposition</label>
 										<select class="uk-select" name="fn_adv_rev_setting[fields][<?php echo $key; ?>][position]" id="">
 											<option value="">Bitte wählen...</option>
-											<option value="top" <?php if($field['position'] === 'top') echo 'selected'; ?>>Über der Nachricht</option>
-											<option value="bottom" <?php if($field['position'] === 'bottom') echo 'selected'; ?>>Unter der Nachricht</option>
-											<option value="nextTo" <?php if($field['position'] === 'nextTo') echo 'selected'; ?>>Neben dem Namen</option>
+											<option value="topText" <?php if($field['position'] === 'topText') echo 'selected'; ?>>Über der Nachricht</option>
+											<option value="bottomText" <?php if($field['position'] === 'bottomText') echo 'selected'; ?>>Unter der Nachricht</option>
+											<option value="nextToName" <?php if($field['position'] === 'nextToName') echo 'selected'; ?>>Neben dem Namen</option>
+											<option value="topName" <?php if($field['position'] === 'topName') echo 'selected'; ?>>Über dem Namen</option>
+											<option value="bottomName" <?php if($field['position'] === 'bottomName') echo 'selected'; ?>>Unter dem Namen</option>
 										</select>
 									</div>
 								</div><?php

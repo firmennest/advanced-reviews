@@ -8,6 +8,7 @@ function fn_adv_rev_overview($attr)
       'anzahl' => -1,
       'offset' => 0,
       'grid' => 1,
+      'review' => ''
     ),
     $attr,
     'advanced-reviews-slider'
@@ -16,6 +17,9 @@ function fn_adv_rev_overview($attr)
   $postNumber = intVal($attr['anzahl']);
   $postOffset = intVal($attr['offset']);
   $postSet = intVal($attr['grid']);
+
+  $postIDs = $attr['review'];
+  $postIDs = array_map('intval', explode(',',$postIDs));
 
   if (!is_numeric($postSet)) {
     $postSet = 1;
@@ -29,6 +33,12 @@ function fn_adv_rev_overview($attr)
       'order' => 'ASC',
       'offset' => $postOffset
   );
+  
+  if(is_array($postIDs) && count($postIDs) > 0 && $postIDs[0] != 0){
+    $args['post__in'] = $postIDs;
+    $args['orderby'] = 'post__in';
+  }
+
   $advRev_query = new WP_Query( $args ); ?>
   <?php if ( $advRev_query->have_posts() ) : ?>
     <div class="uk-text-center">
@@ -49,13 +59,15 @@ function fn_adv_rev_overview($attr)
                   <?php if(!empty($fnAdvReviewMeta['title'])){
                     ?><div class="fn-adv-rev-title uk-h3"><?php echo $fnAdvReviewMeta['title']; ?></div><?php
                   }
-                  echo fn_adv_rev_fields_pos($fields,'top');
+                  echo fn_adv_rev_fields_pos($fields,'topText');
                   ?><div class="fn-adv-rev-message uk-margin-large-left uk-margin-large-right uk-padding-small"><?php the_content(); ?></div><?php
-                  echo fn_adv_rev_fields_pos($fields,'bottom');
+                  echo fn_adv_rev_fields_pos($fields,'bottomText');
                 ?></div>
                 <div class="fn-adv-rev-details">
+                  <?php echo fn_adv_rev_fields_pos($fields,'topName'); ?>
                   <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
-                  <?php echo fn_adv_rev_fields_pos($fields,'nextTo'); ?>
+                  <?php echo fn_adv_rev_fields_pos($fields,'nextToName'); ?>
+                  <?php echo fn_adv_rev_fields_pos($fields,'bottomName'); ?>
                 </div>
               </div>
             </div>
