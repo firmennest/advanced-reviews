@@ -7,7 +7,7 @@
 
 /*
 * Plugin Name: Advanced Reviews
-* Version: 1.0.1
+* Version: 1.0.2
 * Plugin URI: https://www.firmennest.de/
 * Description: Erstelle und zeige Bewertungen in verschieden Styles.
 * Author: nest online GmbH
