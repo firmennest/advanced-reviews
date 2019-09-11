@@ -109,8 +109,8 @@ function fn_adv_rev_slider($attr)
                     </div>
                     <div class="fn-adv-rev-details">
                       <?php echo fn_adv_rev_fields_pos($fields,'topName'); ?>
-                      <div class="uk-flex uk-flex-middle uk-grid-small" uk-grid>
-                        <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
+                      <div class="uk-flex uk-flex-middle uk-grid-small fn-adv-rev-name" uk-grid>
+                        <span class="uk-h4 uk-margin-remove"><?php the_title(); ?></span>
                         <?php echo fn_adv_rev_fields_pos($fields,'nextToName'); ?>
                       </div>
                       <?php echo fn_adv_rev_fields_pos($fields,'bottomName'); ?>
