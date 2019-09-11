@@ -8,15 +8,18 @@ function fn_adv_rev_overview($attr)
       'anzahl' => -1,
       'offset' => 0,
       'grid' => 1,
+      'masonry' => 0,
       'review' => ''
     ),
     $attr,
     'advanced-reviews-slider'
   );
 
-  $postNumber = intVal($attr['anzahl']);
-  $postOffset = intVal($attr['offset']);
-  $postSet = intVal($attr['grid']);
+  $postNumber = (int)$attr['anzahl'];
+  $postOffset = (int)$attr['offset'];
+  $postSet = (int)$attr['grid'];
+
+  $masonry = (bool)$attr['masonry'];
 
   $postIDs = $attr['review'];
   $postIDs = array_map('intval', explode(',',$postIDs));
@@ -33,7 +36,7 @@ function fn_adv_rev_overview($attr)
       'order' => 'ASC',
       'offset' => $postOffset
   );
-  
+
   if(is_array($postIDs) && count($postIDs) > 0 && $postIDs[0] != 0){
     $args['post__in'] = $postIDs;
     $args['orderby'] = 'post__in';
@@ -42,8 +45,12 @@ function fn_adv_rev_overview($attr)
   $advRev_query = new WP_Query( $args ); ?>
   <?php if ( $advRev_query->have_posts() ) : ?>
     <div class="uk-text-center">
-      <ul class="uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m" uk-grid uk-height-match="target: .fn-adv-rev-content">
-        <?php while ( $advRev_query->have_posts() ) : $advRev_query->the_post();
+      <?php if ($masonry){
+        ?><ul class="uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m" uk-grid="masonry: true;"><?php
+      }else{
+        ?><ul class="uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m" uk-grid uk-height-match="target: .fn-adv-rev-content"><?php
+      }
+      while ( $advRev_query->have_posts() ) : $advRev_query->the_post();
           $fnAdvReview = new fnAdvReview;
           $fnAdvReviewRating = $fnAdvReview->getRating(get_the_ID());
           $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');

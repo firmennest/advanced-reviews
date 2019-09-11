@@ -46,9 +46,9 @@ function fn_adv_rev_slider($attr)
     'advanced-reviews-slider'
   );
 
-  $postNumber = intVal($attr['anzahl']);
-  $postOffset = intVal($attr['offset']);
-  $postSet = intVal($attr['set']);
+  $postNumber = (int)$attr['anzahl'];
+  $postOffset = (int)$attr['offset'];
+  $postSet = (int)$attr['set'];
 
   $postIDs = $attr['review'];
   $postIDs = array_map('intval', explode(',',$postIDs));
@@ -72,7 +72,7 @@ function fn_adv_rev_slider($attr)
     $args['post__in'] = $postIDs;
     $args['orderby'] = 'post__in';
   }
-  
+
   if($attr['style'] === 'left'){
     $advRev_query = new WP_Query( $args ); ?>
     <?php if ( $advRev_query->have_posts() ) :

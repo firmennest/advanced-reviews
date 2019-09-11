@@ -49,6 +49,7 @@ function fn_adv_rev_admin_docu(){
 									anzahl<br />
 									offset<br />
 									grid<br />
+									masonry<br />
 									review
 								</td>
 								<td>[advanced-reviews-overview grid="3"]</td>
@@ -57,7 +58,9 @@ function fn_adv_rev_admin_docu(){
 									<br />
 									<strong>offset:</strong> Anzahl der ausgelassenen Bewertungen (neu -> alt).
 									<br />
-									<strong>set:</strong> Anzahl der Bewertung welche nebeneinander erscheinen.
+									<strong>grid:</strong> Anzahl der Bewertung welche nebeneinander erscheinen.
+									<br />
+									<strong>masonry:</strong> 0 (aus) oder 1 (an).
 									<br />
 									<strong>review:</strong> Kommagetrennte IDs der relevanten Bewertungen. Die Reihenfolge der IDs ist gleichzeitig die Ausgabereihenfolge.
 								</td>
