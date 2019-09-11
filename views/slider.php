@@ -76,7 +76,7 @@ function fn_adv_rev_slider($attr)
   if($attr['style'] === 'left'){
     $advRev_query = new WP_Query( $args ); ?>
     <?php if ( $advRev_query->have_posts() ) :
-      ?><div class="uk-position-relative fn-adv-rev-frame" uk-height-match="target: .fn-adv-rev-content">
+      ?><div class="uk-position-relative fn-adv-rev-frame fn-adv-rev-frame-slider" uk-height-match="target: .fn-adv-rev-content">
         <div uk-slider>
           <ul class="uk-slider-items uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m">
             <?php while ( $advRev_query->have_posts() ) : $advRev_query->the_post();

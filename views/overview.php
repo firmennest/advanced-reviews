@@ -44,7 +44,7 @@ function fn_adv_rev_overview($attr)
 
   $advRev_query = new WP_Query( $args ); ?>
   <?php if ( $advRev_query->have_posts() ) : ?>
-    <div class="uk-text-center">
+    <div class="uk-text-center fn-adv-rev-frame fn-adv-rev-frame-overview">
       <?php if ($masonry){
         ?><ul class="uk-child-width-1-1@s uk-child-width-1-<?php echo $postSet; ?>@m" uk-grid="masonry: true;"><?php
       }else{
