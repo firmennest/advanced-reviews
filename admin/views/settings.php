@@ -1,19 +1,19 @@
 <?php
 function fn_adv_rev_admin_settings(){
-
 	if ( isset( $_POST['fn_adv_rev_setting'] ) ) {
 		$settings = $_POST['fn_adv_rev_setting'];
 		foreach ($settings as $setting => $settingAr) {
 			if($setting === 'general'){
+				$gValues = array();
 				$fieldKey = 'fn_adv_rev_setting['. $setting . ']';
 				foreach ($settingAr as $key => $value) {
 					if(is_array($value)){
 						$arrayKey = $key;
 						foreach ($value as $key => $content) {
-						 $gValues[$arrayKey][$key] .= $content;
+						 $gValues[$arrayKey][$key] = $content;
 						}
 					}else{
-						$gValues[$key] .= $value;
+						$gValues[$key] = $value;
 					}
 					update_option( $fieldKey, $gValues );
 				}
@@ -27,9 +27,10 @@ function fn_adv_rev_admin_settings(){
 				}
 				update_option( $fieldKey, $fValues );
 			}else if($setting === 'questions'){
+				$qValues = array();
 				$fieldKey = 'fn_adv_rev_setting['. $setting . ']';
 				foreach ($settingAr as $key => $value) {
-					 $qValues[$key] .= $value;
+					 $qValues[$key] = $value;
 				}
 				$qValues = array_filter($qValues);
 				update_option( $fieldKey, $qValues );
@@ -67,7 +68,7 @@ function fn_adv_rev_admin_settings(){
 						<div class="uk-h3">Allgemein</div>
 						<fieldset class="uk-fieldset">
 							<div class="uk-margin uk-grid-small uk-child-width-1-1 uk-grid">
-		            <label><input class="uk-checkbox" type="checkbox" name="fn_adv_rev_setting[general][taxonomy]" <?php if ($settingsGeneral['taxonomy'] === 'on') echo 'checked'; ?>> Kategorien aktivieren</label>
+		            <label><input class="uk-checkbox" type="checkbox" name="fn_adv_rev_setting[general][taxonomy]" <?php if (isset($settingsGeneral['taxonomy']) && $settingsGeneral['taxonomy'] === 'on') echo 'checked'; ?>> Kategorien aktivieren</label>
 			        </div>
 						</fieldset>
 						<div class="uk-h4">Labels</div>
@@ -89,7 +90,7 @@ function fn_adv_rev_admin_settings(){
 					<div class="uk-width-1-3@m">
 						<div class="uk-h3">Platzhalterbild</div>
 						<fieldset class="uk-fieldset">
-							<label><input class="uk-checkbox" type="checkbox" name="fn_adv_rev_setting[general][placeholderImageStatus]" <?php if ($settingsGeneral['placeholderImageStatus'] === 'on') echo 'checked'; ?>> Bild pro Bewertung aktivieren</label>
+							<label><input class="uk-checkbox" type="checkbox" name="fn_adv_rev_setting[general][placeholderImageStatus]" <?php if (isset($settingsGeneral['placeholderImageStatus']) && $settingsGeneral['placeholderImageStatus'] === 'on') echo 'checked'; ?>> Bild pro Bewertung aktivieren</label>
 							<div class="uk-margin uk-grid-small uk-child-width-1-1 uk-grid">
 								<?php
 								$image_id = intVal($settingsGeneral['placeholderImage']);

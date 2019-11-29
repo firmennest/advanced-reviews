@@ -3,13 +3,16 @@
 defined( 'ABSPATH' ) || exit;
 
 function fn_adv_rev_fields_pos($fieldsMeta,$pos){
+  //var_dump($fieldsMeta);
   $fields = get_option('fn_adv_rev_setting[fields]');
   if($fieldsMeta){
     $extractedFields = array();
-    foreach ($fieldsMeta as $key => $field) {
+    foreach ($fieldsMeta as $field) {
       foreach ($field as $key => $value) {
-        if($fields[$key]['position'] === $pos){
-          array_push($extractedFields,$value);
+        if(array_key_exists($key, $fields)){
+          if($fields[$key]['position'] === $pos){
+            array_push($extractedFields,$value);
+          }
         }
       }
     }
@@ -85,7 +88,7 @@ function fn_adv_rev_slider($attr)
               $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');
               ?><li>
                 <div class="uk-flex uk-flex-middle uk-grid-small uk-margin-large-left uk-margin-large-right" uk-grid><?php
-                  if ($settingsGeneral['placeholderImageStatus'] === 'on'){
+                  if (isset($settingsGeneral['placeholderImageStatus']) && $settingsGeneral['placeholderImageStatus'] === 'on'){
                     ?><div class="uk-width-1-3"><?php
                     $image_id = intVal($settingsGeneral['placeholderImage']);
                     if(has_post_thumbnail()){
@@ -144,7 +147,7 @@ function fn_adv_rev_slider($attr)
               $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');
 
               ?><li><?php
-                if ($settingsGeneral['placeholderImageStatus'] === 'on'){
+                if (isset($settingsGeneral['placeholderImageStatus']) && $settingsGeneral['placeholderImageStatus'] === 'on'){
                   $image_id = intVal($settingsGeneral['placeholderImage']);
                   if(has_post_thumbnail()){
                     ?><div class="fn-adv-rev-image uk-margin-bottom">

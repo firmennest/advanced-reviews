@@ -25,7 +25,7 @@ function fn_adv_rev_form($attr)
         ?><div class="uk-margin-bottom">
           <label class="uk-form-label"><?php echo $field['label']; ?><?php if($field['required']) echo '<span class="fn-adv-rev-required-sign uk-text-danger">*</span>'; ?></label>
           <div class="uk-form-controls">
-            <input type="text" name="fnAdvReview[fields][<?php echo $key; ?>][label]" class="uk-input <?php if($field['required']) echo 'fn-adv-rev-required'; ?>">
+            <input type="text" name="fnAdvReview[fields][<?php echo $key; ?>][value]" class="uk-input <?php if($field['required']) echo 'fn-adv-rev-required'; ?>">
             <input type="hidden" name="fnAdvReview[fields][<?php echo $key; ?>][type]" value="<?php echo $field['type']; ?>">
             <input type="hidden" name="fnAdvReview[fields][<?php echo $key; ?>][required]" value="<?php echo $field['required']; ?>">
           </div>

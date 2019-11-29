@@ -3,7 +3,8 @@ add_action('wp_ajax_fnarsend', 'fnAdvReview_send');
 add_action('wp_ajax_nopriv_fnarsend', 'fnAdvReview_send');
 function fnAdvReview_send(){
   $fnAdvReview = $_POST['fnAdvReview'];
-
+  $fnAdvReview = array_walk_recursive($fnAdvReview, 'sanitize_text_field');
+  var_dump($fnAdvReview);
   $fnAdvReviewQuestions = $fnAdvReview['questions'];
   $fnAdvReviewFields = $fnAdvReview['fields'];
 

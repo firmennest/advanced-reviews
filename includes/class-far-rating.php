@@ -7,12 +7,14 @@ class fnAdvReview {
 
     function getRating($id){
       $fn_adv_rev_ratings = get_post_meta( get_the_ID(), 'fn_adv_rev_questions' );
-      $fn_adv_rev_ratings = $fn_adv_rev_ratings[0];
-      if(is_array($fn_adv_rev_ratings) && count($fn_adv_rev_ratings)){
-        $fn_adv_rev_rating = round(array_sum($fn_adv_rev_ratings) / count($fn_adv_rev_ratings));
-        return $fn_adv_rev_rating;
-      }else{
-        return false;
+      if(isset($fn_adv_rev_ratings[0])){
+        $fn_adv_rev_ratings = $fn_adv_rev_ratings[0];
+        if(is_array($fn_adv_rev_ratings) && count($fn_adv_rev_ratings)){
+          $fn_adv_rev_rating = round(array_sum($fn_adv_rev_ratings) / count($fn_adv_rev_ratings));
+          return $fn_adv_rev_rating;
+        }else{
+          return false;
+        }
       }
     }
 

@@ -46,7 +46,7 @@ function fn_adv_rev_post_type() {
   register_post_type( 'fn-adv-rev', $args );
 
   $settingsGeneral = get_option('fn_adv_rev_setting[general]');
-  if ($settingsGeneral['taxonomy'] === 'on'){
+  if (isset($settingsGeneral['taxonomy']) && $settingsGeneral['taxonomy'] === 'on'){
     register_taxonomy(
 		'Review Category',
 		'fn-adv-rev',
@@ -187,14 +187,17 @@ function fn_adv_rev_save_post($post_id) {
 
   //Save Questions
   if ( isset( $_POST['fn_adv_rev_questions_save_nonce'] ) ){
+    $fn_adv_rev_questions = array();
     foreach ($_POST['fn_adv_rev_questions_save_nonce'] as $key => $value ) {
       if ( isset( $value ) ){
         if (wp_verify_nonce( $_POST['fn_adv_rev_questions_save_nonce'][$key], 'fn_adv_rev_questions_save['.$key.']' ) ){
-          $fn_adv_rev_questions[$key] .= $_POST['fn_adv_rev_questions'][$key];
+          $fn_adv_rev_questions[$key] = $_POST['fn_adv_rev_questions'][$key];
         }
       }
     }
-    update_post_meta($post_id, 'fn_adv_rev_questions', $fn_adv_rev_questions);
+    if(isset($fn_adv_rev_questions) && is_array($fn_adv_rev_questions)){
+      update_post_meta($post_id, 'fn_adv_rev_questions', $fn_adv_rev_questions);
+    }
   }
 
   //Save Fields
@@ -203,11 +206,13 @@ function fn_adv_rev_save_post($post_id) {
     foreach ($_POST['fn_adv_rev_fields_save_nonce'] as $key => $value ) {
       if ( isset( $value ) ){
         if ( wp_verify_nonce( $_POST['fn_adv_rev_fields_save_nonce'][$key], 'fn_adv_rev_fields_save['.$key.']' ) ){
-          array_push($fn_adv_rev_fields ,$_POST['fn_adv_rev_fields'][$key]);
+          $fn_adv_rev_fields[$key] = $_POST['fn_adv_rev_fields'][$key];
         }
       }
     }
-    update_post_meta($post_id, 'fn_adv_rev_fields', $fn_adv_rev_fields);
+    if(isset($fn_adv_rev_fields) && is_array($fn_adv_rev_fields)){
+      update_post_meta($post_id, 'fn_adv_rev_fields', $fn_adv_rev_fields);
+    }
   }
   return $post_id;
 }
