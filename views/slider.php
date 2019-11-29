@@ -3,7 +3,6 @@
 defined( 'ABSPATH' ) || exit;
 
 function fn_adv_rev_fields_pos($fieldsMeta,$pos){
-  //var_dump($fieldsMeta);
   $fields = get_option('fn_adv_rev_setting[fields]');
   if($fieldsMeta){
     $extractedFields = array();
