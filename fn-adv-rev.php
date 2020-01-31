@@ -23,6 +23,8 @@ require_once('fn-adv-rev-admin.php');
 
 require_once('includes/class-far-rating.php');
 
+require_once('includes/fn-adv-rev-functions.php');
+
 require_once('admin/ajax.php');
 
 require_once('admin/views/settings.php');

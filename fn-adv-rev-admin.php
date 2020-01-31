@@ -82,7 +82,7 @@ function fn_adv_rev_css() {
 	$dirPath = plugin_dir_path( __FILE__ );
   $dirURL = plugin_dir_url( __FILE__ );
   if ( !is_admin() ) {
-    wp_register_style( 'fnadvrev-loader-css', $dirURL . '/assets/css/fnadvrev-loader.css', array(), filemtime($dirPath . '/assets/css/fnadvrev-loader.css'), false);
+    wp_register_style( 'fnadvrev-loader-css', $dirURL . 'assets/css/fnadvrev-loader.css', array(), filemtime($dirPath . 'assets/css/fnadvrev-loader.css'), false);
     wp_enqueue_style( 'fnadvrev-loader-css');
   }
 }
@@ -93,7 +93,7 @@ function fn_adv_rev_js() {
 	$dirPath = plugin_dir_path( __FILE__ );
   $dirURL = plugin_dir_url( __FILE__ );
   if ( !is_admin() ) {
-    wp_register_script( 'fn-adv-rev-base-js', $dirURL . '/assets/js/base-min.js', array(), filemtime($dirPath . '/assets/js/base-min.js'), true);
+    wp_register_script( 'fn-adv-rev-base-js', $dirURL . 'assets/js/base-min.js', array(), filemtime($dirPath . 'assets/js/base-min.js'), true);
     wp_enqueue_script( 'fn-adv-rev-base-js');
   }
 }
@@ -106,6 +106,7 @@ function fn_adv_rev_js_admin() {
   if ( get_current_screen()->base === 'fn-adv-rev_page_fn-adv-rev-settings' ) {
     wp_enqueue_media();
     wp_enqueue_script( 'fn_adv_rev_js_media', plugins_url( 'admin/assets/js/media-min.js' , __FILE__ ), array('jquery'), '0.1' );
+    wp_enqueue_script( 'fn_adv_rev_js_base', plugins_url( 'admin/assets/js/base.js' , __FILE__ ), array('jquery'), '0.1' );
   }
 }
 add_action( 'wp_enqueue_scripts ', 'fn_adv_rev_js_admin');
@@ -168,10 +169,6 @@ function fn_adv_rev_get_fields($post){
       ?><div class="uk-margin">
           <label for="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>" class="uk-h5"><?php echo $field['label']; ?></label>
           <input id="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>"" name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][value]'; ?>" type="<?php echo $field['type']; ?>" value="<?php if(is_array($fn_adv_rev_fields)) echo $fn_adv_rev_fields[$key]['value']; ?>">
-          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][label]'; ?>" value="<?php echo $fields[$key]['label']; ?>" type="hidden">
-          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][type]'; ?>" value="<?php echo $fields[$key]['type']; ?>" type="hidden">
-          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][required]'; ?>" value="<?php echo $fields[$key]['required']; ?>" type="hidden">
-          <input name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][position]'; ?>" value="<?php echo $fields[$key]['position']; ?>" type="hidden">
           <?php wp_nonce_field( 'fn_adv_rev_fields_save['.$key.']', 'fn_adv_rev_fields_save_nonce['.$key.']' ); ?>
       </div><?php
     }

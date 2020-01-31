@@ -1,4 +1,7 @@
 <?php
+
+defined( 'ABSPATH' ) || exit;
+
 function fn_adv_rev_admin_settings(){
 	if ( isset( $_POST['fn_adv_rev_setting'] ) ) {
 		$settings = $_POST['fn_adv_rev_setting'];
@@ -191,18 +194,6 @@ function fn_adv_rev_admin_settings(){
 				<button type="submit" class="uk-button uk-button-primary">Einstellungen speichern</button>
 			</form>
 			<hr>
-				<script>
-					function fn_adv_rev_add_field($btn,name){
-						$fieldset = $btn.prev('fieldset')
-						var key = $fieldset.find('> .fn_adv_rev_add_field_frame').length + 1;
-						var $frame = $fieldset.find('> .fn_adv_rev_add_field_frame').last().clone();
-						$frame.find('input, select').each(function(){
-							var newName = $(this).attr('name').replace(/\d+/g, key);
-							$(this).attr('name', newName).attr('value', '');
-						});
-						$fieldset.append($frame.prop('outerHTML'));
-					}
-				</script>
 		</main>
 	</div>
 	<?php

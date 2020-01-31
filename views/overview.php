@@ -53,7 +53,6 @@ function fn_adv_rev_overview($attr)
       while ( $advRev_query->have_posts() ) : $advRev_query->the_post();
           $fnAdvReview = new fnAdvReview;
           $fnAdvReviewRating = $fnAdvReview->getRating(get_the_ID());
-          $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');
           ?><li>
             <div class="uk-card uk-card-small">
               <div class="uk-card-header"><?php
@@ -66,17 +65,17 @@ function fn_adv_rev_overview($attr)
                   <?php if(!empty($fnAdvReviewMeta['title'])){
                     ?><div class="fn-adv-rev-title uk-h3"><?php echo $fnAdvReviewMeta['title']; ?></div><?php
                   }
-                  echo fn_adv_rev_fields_pos($fields,'topText');
+                  echo fn_adv_rev_fields_pos('topText');
                   ?><div class="fn-adv-rev-message uk-margin-large-left uk-margin-large-right uk-padding-small"><?php the_content(); ?></div><?php
-                  echo fn_adv_rev_fields_pos($fields,'bottomText');
+                  echo fn_adv_rev_fields_pos('bottomText');
                 ?></div>
                 <div class="fn-adv-rev-details">
-                  <?php echo fn_adv_rev_fields_pos($fields,'topName'); ?>
+                  <?php echo fn_adv_rev_fields_pos('topName'); ?>
                   <div class="uk-flex uk-flex-middle uk-flex-center uk-grid-small fn-adv-rev-name-frame" uk-grid>
                     <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
-                    <?php echo fn_adv_rev_fields_pos($fields,'nextToName'); ?>
+                    <?php echo fn_adv_rev_fields_pos('nextToName'); ?>
                   </div>
-                  <?php echo fn_adv_rev_fields_pos($fields,'bottomName'); ?>
+                  <?php echo fn_adv_rev_fields_pos('bottomName'); ?>
                 </div>
               </div>
             </div>

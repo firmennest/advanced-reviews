@@ -2,36 +2,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-function fn_adv_rev_fields_pos($fieldsMeta,$pos){
-  $fields = get_option('fn_adv_rev_setting[fields]');
-  if($fieldsMeta){
-    $extractedFields = array();
-    foreach ($fieldsMeta as $field) {
-      foreach ($field as $key => $value) {
-        if(array_key_exists($key, $fields)){
-          if($fields[$key]['position'] === $pos){
-            array_push($extractedFields,$value);
-          }
-        }
-      }
-    }
-    if(is_array($extractedFields) && count($extractedFields) > 0){
-      $positionsWrapper = array('topText', 'bottomText', 'topName', 'bottomName');
-      if(in_array($pos, $positionsWrapper)){
-        ?><div class="fn-adv-rev-field-<?php echo $pos; ?> uk-display-inline-block"><?php
-      }
-      foreach ($extractedFields as $value) {
-        if (!empty($value['label'])) {
-          ?><span class="fn-adv-rev-field-<?php echo sanitize_title($value['label']); ?> uk-text-meta"><?php echo $value['value']; ?></span><?php
-        }
-      }
-      if(in_array($pos, $positionsWrapper)){
-        ?></div><?php
-      }
-    }
-  }
-}
-
 add_shortcode('advanced-reviews-slider','fn_adv_rev_slider');
 function fn_adv_rev_slider($attr)
 {
@@ -143,7 +113,6 @@ function fn_adv_rev_slider($attr)
             <?php while ( $advRev_query->have_posts() ) : $advRev_query->the_post();
               $fnAdvReview = new fnAdvReview;
               $fnAdvReviewRating = $fnAdvReview->getRating(get_the_ID());
-              $fields = get_post_meta( get_the_ID() ,'fn_adv_rev_fields');
 
               ?><li><?php
                 if (isset($settingsGeneral['placeholderImageStatus']) && $settingsGeneral['placeholderImageStatus'] === 'on'){
@@ -163,15 +132,15 @@ function fn_adv_rev_slider($attr)
                 }
                 ?><div class="fn-adv-rev-content uk-flex">
                   <div class="uk-width-1-1"><?php
-                    echo fn_adv_rev_fields_pos($fields,'top');
+                    echo fn_adv_rev_fields_pos('top');
                     ?><div class="fn-adv-rev-message uk-padding-small"><?php the_content(); ?></div><?php
-                    echo fn_adv_rev_fields_pos($fields,'bottom');
+                    echo fn_adv_rev_fields_pos('bottom');
                   ?></div>
                 </div>
                 <div class="fn-adv-rev-details">
                   <div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
                     <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
-                    <?php echo fn_adv_rev_fields_pos($fields,'nextTo'); ?>
+                    <?php echo fn_adv_rev_fields_pos('nextTo'); ?>
                   </div>
                 </div>
               </li><?php
