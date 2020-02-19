@@ -34,11 +34,11 @@ function fn_adv_rev_admin_docu(){
 								</td>
 								<td>[advanced-reviews-slider anzahl="4" offset="20" set="3" review="14,12,16"]</td>
 		            <td>
-									<strong>anzahl:</strong> Wieviele Bewertung ausgegeben werden. Bitte beachten Sie, dass <strong>offset</strong> nur funktioniert, wenn es eine <strong>anzahl</strong> gibt.
+									<strong>anzahl:</strong> Wie viele Bewertungen ausgegeben werden. Bitte beachten Sie, dass <strong>offset</strong> nur funktioniert, wenn es eine <strong>anzahl</strong> gibt.
 									<br />
 									<strong>offset:</strong> Anzahl der ausgelassenen Bewertungen (neu -> alt).
 									<br />
-									<strong>set:</strong> Anzahl der Bewertung welche nebeneinander erscheinen.
+									<strong>set:</strong> Anzahl der Bewertungen, welche nebeneinander erscheinen.
 									<br />
 									<strong>review:</strong> Kommagetrennte IDs der relevanten Bewertungen. Die Reihenfolge der IDs ist gleichzeitig die Ausgabereihenfolge.
 								</td>
@@ -54,11 +54,11 @@ function fn_adv_rev_admin_docu(){
 								</td>
 								<td>[advanced-reviews-overview grid="3"]</td>
 								<td>
-									<strong>anzahl:</strong> Wieviele Bewertung ausgegeben werden. Bitte beachten Sie, dass <strong>offset</strong> nur funktioniert, wenn es eine <strong>anzahl</strong> gibt.
+									<strong>anzahl:</strong> Wie viele Bewertungen ausgegeben werden. Bitte beachten Sie, dass <strong>offset</strong> nur funktioniert, wenn es eine <strong>anzahl</strong> gibt.
 									<br />
 									<strong>offset:</strong> Anzahl der ausgelassenen Bewertungen (neu -> alt).
 									<br />
-									<strong>grid:</strong> Anzahl der Bewertung welche nebeneinander erscheinen.
+									<strong>grid:</strong> Anzahl der Bewertungen, welche nebeneinander erscheinen.
 									<br />
 									<strong>masonry:</strong> 0 (aus) oder 1 (an).
 									<br />
