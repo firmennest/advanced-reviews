@@ -20,7 +20,23 @@ function fnAdvReview_send(){
       'fn_adv_rev_fields' => $fnAdvReviewFields,
     )
   );
-  wp_insert_post( $fn_adv_rev_post );
+  $posted = wp_insert_post( $fn_adv_rev_post );
+  $settingsGeneral = get_option('fn_adv_rev_setting[general]');
+  if($posted && isset($settingsGeneral['notificationmail']) && is_email($settingsGeneral['notificationmail'])){
+
+    $link = get_edit_post_link($posted);
+
+    $mailIntro = "Sie haben eine neue Bewertung von <strong>{$fnAdvReview['name']}</strong> erhalten.";
+    $mailContent = "Über diesen Link: <a href='{$link}'>{$link}</a> gelangen Sie zur Bewertung.";
+
+    $to = $settingsGeneral['notificationmail'];
+    $subject = 'Sie haben eine neue Bewertung erhalten | ' . get_bloginfo('name');
+    $body = $mailIntro . '<br /><br /><br />' . $mailContent;
+
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+    wp_mail( $to, $subject, $body, $headers );
+  }
 	die();
 }
 
