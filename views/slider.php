@@ -74,18 +74,18 @@ function fn_adv_rev_slider($attr)
                   ?><div class="<?php if ($settingsGeneral['placeholderImageStatus'] === 'on'){ ?>uk-width-2-3<?php }else{ ?>uk-width-1-1<?php } ?>">
                     <div class="fn-adv-rev-content uk-flex">
                       <div class="uk-width-1-1"><?php
-                        echo fn_adv_rev_fields_pos($fields,'topText');
+                        echo fn_adv_rev_fields_pos('topText');
                         ?><div class="fn-adv-rev-message"><?php the_content(); ?></div><?php
-                        echo fn_adv_rev_fields_pos($fields,'bottomText');
+                        echo fn_adv_rev_fields_pos('bottomText');
                       ?></div>
                     </div>
                     <div class="fn-adv-rev-details">
-                      <?php echo fn_adv_rev_fields_pos($fields,'topName'); ?>
+                      <?php echo fn_adv_rev_fields_pos('topName'); ?>
                       <div class="uk-flex uk-flex-middle uk-grid-small fn-adv-rev-name-frame" uk-grid>
                         <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
-                        <?php echo fn_adv_rev_fields_pos($fields,'nextToName'); ?>
+                        <?php echo fn_adv_rev_fields_pos('nextToName'); ?>
                       </div>
-                      <?php echo fn_adv_rev_fields_pos($fields,'bottomName'); ?>
+                      <?php echo fn_adv_rev_fields_pos('bottomName'); ?>
                     </div>
                     <?php
                     if($fnAdvReviewRating){
@@ -132,16 +132,18 @@ function fn_adv_rev_slider($attr)
                 }
                 ?><div class="fn-adv-rev-content uk-flex">
                   <div class="uk-width-1-1"><?php
-                    echo fn_adv_rev_fields_pos('top');
+                    echo fn_adv_rev_fields_pos('topText');
                     ?><div class="fn-adv-rev-message uk-padding-small"><?php the_content(); ?></div><?php
-                    echo fn_adv_rev_fields_pos('bottom');
+                    echo fn_adv_rev_fields_pos('bottomText');
                   ?></div>
                 </div>
                 <div class="fn-adv-rev-details">
+                  <?php echo fn_adv_rev_fields_pos('topName'); ?>
                   <div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
                     <span class="fn-adv-rev-name uk-h4 uk-margin-remove"><?php the_title(); ?></span>
                     <?php echo fn_adv_rev_fields_pos('nextTo'); ?>
                   </div>
+                  <?php echo fn_adv_rev_fields_pos('bottomName'); ?>
                 </div>
               </li><?php
             endwhile; ?>
