@@ -73,7 +73,7 @@ function fn_adv_rev_admin_settings(){
 							<div class="uk-margin uk-grid-small uk-child-width-1-1 uk-grid">
 		            <label><input class="uk-checkbox" type="checkbox" name="fn_adv_rev_setting[general][taxonomy]" <?php if (isset($settingsGeneral['taxonomy']) && $settingsGeneral['taxonomy'] === 'on') echo 'checked'; ?>> Kategorien aktivieren</label>
 			        </div>
-						<div class="uk-h4">Benachrichtung senden an</div>
+						<div class="uk-h4">E-Mail Benachrichtigung neuer Bewertung senden an</div>
 						<fieldset class="uk-fieldset">
 							<div class="uk-margin uk-grid-small uk-child-width-1-3 uk-grid">
 								<div class=""><input class="uk-input" type="text" name="fn_adv_rev_setting[general][notificationmail]" value="<?php if (!empty($settingsGeneral['notificationmail'])) echo $settingsGeneral['notificationmail']; ?>" placeholder="E-Mail"></div>

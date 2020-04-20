@@ -36,7 +36,7 @@ function fn_adv_rev_snippet($attr)
       $fn_adv_rev_ratings = $fn_adv_rev_ratings[0];
       if(is_array($fn_adv_rev_ratings) && count($fn_adv_rev_ratings)){
         $fn_adv_rev_rating = round(array_sum($fn_adv_rev_ratings) / count($fn_adv_rev_ratings));
-        $ratingValue = $fn_adv_rev_rating;
+        $ratingValue += $fn_adv_rev_rating;
       }
     endwhile;
 

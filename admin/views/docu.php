@@ -28,6 +28,7 @@ function fn_adv_rev_admin_docu(){
 		            <td>[advanced-reviews-slider]</td>
 		            <td>
 									anzahl<br />
+									style<br />
 									offset<br />
 									set<br />
 									review
@@ -35,6 +36,8 @@ function fn_adv_rev_admin_docu(){
 								<td>[advanced-reviews-slider anzahl="4" offset="20" set="3" review="14,12,16"]</td>
 		            <td>
 									<strong>anzahl:</strong> Wie viele Bewertungen ausgegeben werden. Bitte beachten Sie, dass <strong>offset</strong> nur funktioniert, wenn es eine <strong>anzahl</strong> gibt.
+									<br />
+									<strong>style:</strong> Ausrichtung <strong>left</strong> oder <strong>center</strong>.
 									<br />
 									<strong>offset:</strong> Anzahl der ausgelassenen Bewertungen (neu -> alt).
 									<br />
