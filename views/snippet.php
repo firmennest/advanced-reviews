@@ -52,25 +52,24 @@ function fn_adv_rev_snippet($attr)
     wp_reset_postdata();
   endif;
 
-  if($showSnippet){
-    echo '<span>'. $company .' | '. $ratingValue. ' von ' . $max .' Sternen <br>' . $count . ' Bewertungen gesamt</span>';
-  }else{
-    if(!is_front_page()){
-      if($reviewsFound) {
-        $fn_snippet = '<script type="application/ld+json">';
-        $fn_snippet .= '{';
-        $fn_snippet .= '"@context": "http://schema.org",';
-        $fn_snippet .= '"@type": "Organization",';
-        $fn_snippet .= '"name": "'.$company.'",';
-        $fn_snippet .= '"aggregateRating" : {';
-        $fn_snippet .= '"@type": "AggregateRating",';
-        $fn_snippet .= '"ratingValue" : "'.$ratingValue.'",';
-        $fn_snippet .= '"bestRating" : "'.$max.'",';
-        $fn_snippet .= '"ratingCount" : "'.$count.'"';
-        $fn_snippet .= '}}';
-        $fn_snippet .= '</script>';
-        echo $fn_snippet;
-      }
+  if(!is_front_page()){
+    if($reviewsFound) {
+      $fn_snippet = '<script type="application/ld+json">';
+      $fn_snippet .= '{';
+      $fn_snippet .= '"@context": "http://schema.org",';
+      $fn_snippet .= '"@type": "Organization",';
+      $fn_snippet .= '"name": "'.$company.'",';
+      $fn_snippet .= '"aggregateRating" : {';
+      $fn_snippet .= '"@type": "AggregateRating",';
+      $fn_snippet .= '"ratingValue" : "'.$ratingValue.'",';
+      $fn_snippet .= '"bestRating" : "'.$max.'",';
+      $fn_snippet .= '"ratingCount" : "'.$count.'"';
+      $fn_snippet .= '}}';
+      $fn_snippet .= '</script>';
+      echo $fn_snippet;
+    }
+    if($showSnippet){
+      echo '<span>'. $company .' | '. $ratingValue. ' von ' . $max .' Sternen <br>' . $count . ' Bewertungen gesamt</span>';
     }
   }
 
