@@ -50,6 +50,7 @@ function fnValidation($form){
 }
 $( document ).ready(function() {
   $('.fn-adv-rev-submit-form').closest('form').submit(function(e) {
+    var $form = $(this);
     e.preventDefault();
     if(fnValidation($(this)) === 0){
       UIkit.notification("Bitte wählen Sie mind. eine Kategorie aus", {status:'danger', pos: 'bottom-center'})
@@ -73,6 +74,7 @@ $( document ).ready(function() {
       }
     }).done(function(response){
       UIkit.notification("Ihre Bewertung wurde abgeschickt.", {status:'success', pos: 'bottom-center'})
+      $form.trigger("reset");
     }).fail(function(response){
       console.log(response);
     });

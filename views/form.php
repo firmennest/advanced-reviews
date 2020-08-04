@@ -41,7 +41,7 @@ function fn_adv_rev_form($attr)
         ?><div class="uk-margin-bottom">
           <label class="uk-form-label"><?php _e($value, 'firmennest | Advanced Reviews') ?></label>
           <div class="uk-form-controls fn-adv-rev-stars-selection">
-            <input class="fn-adv-rev-hidden-stars fn-adv-rev-required" name="fnAdvReview[questions][<?php echo $key; ?>]" type="hidden" value="3"><?php
+            <input class="fn-adv-rev-hidden-stars fn-adv-rev-required" name="fnAdvReview[questions][<?php echo $key; ?>]" type="hidden" value="5"><?php
             $formStars = new fnAdvReview;
             echo $formStars->getStars(5);
           ?></div>
