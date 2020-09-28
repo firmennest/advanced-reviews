@@ -17,7 +17,10 @@
 defined( 'ABSPATH' ) || exit;
 
 $url = plugin_dir_url(__FILE__);
+$dir = plugin_dir_path(__FILE__);
+
 define('FN_ADV_REV_URL',$url);
+define('FN_ADV_REV_TEMPLATE_DIR',$dir);
 
 require_once('fn-adv-rev-admin.php');
 
@@ -30,10 +33,13 @@ require_once('admin/ajax.php');
 require_once('admin/views/settings.php');
 require_once('admin/views/docu.php');
 
-require_once('views/overview.php');
-require_once('views/slider.php');
-require_once('views/form.php');
-require_once('views/snippet.php');
+
+require_once('includes/fn-adv-rev-shortcodes.php');
+// require_once('views/overview.php');
+// require_once('views/slider.php');
+
+require_once('template/form.php');
+require_once('template/snippet.php');
 
 
 function fn_adv_rev_addLoader() {

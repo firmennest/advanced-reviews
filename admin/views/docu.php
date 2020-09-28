@@ -8,7 +8,7 @@ function fn_adv_rev_admin_docu(){
 					<h1 class="uk-margin-remove">Documentation</h1>
 				</div>
 				<div class="uk-width-1-3 uk-text-right">
-					<a class="logo" target="_blank" rel="noopener" href="https://www.firmennest.de"><img src="<?php echo FN_ADV_REV_URL; ?>assets/images/firmennest_Logo.svg" alt=""></a>
+					<a class="logo" target="_blank" rel="noopener" href="https://www.firmennest.de"><img src="<?php echo FN_ADV_REV_URL; ?>admin/assets/images/firmennest_Logo.svg" alt=""></a>
 				</div>
 			</div>
 		</header>
