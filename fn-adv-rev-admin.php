@@ -91,19 +91,13 @@ function fn_adv_rev_admin_js() {
 
 
 // CSS Files
-function fn_adv_rev_css() {
+function fn_adv_rev_assets() {
   if ( !is_admin() ) {
-    wp_register_style( 'fnadvrev-loader-css', FN_ADV_REV_URL . 'assets/css/fnadvrev-loader.css', array(), filemtime(FN_ADV_REV_TEMPLATE_DIR . 'assets/css/fnadvrev-loader.css'), false);
+    wp_register_style( 'fnadvrev-loader', FN_ADV_REV_URL . 'assets/css/fnadvrev-loader.css', array(), filemtime(FN_ADV_REV_TEMPLATE_DIR . 'assets/css/fnadvrev-loader.css'), false);
+    wp_enqueue_script( 'fn-adv-rev-base', FN_ADV_REV_URL . 'assets/js/base-min.js', array(), filemtime(FN_ADV_REV_TEMPLATE_DIR . 'assets/js/base-min.js'), true);
   }
 }
-add_action( 'wp_enqueue_scripts', 'fn_adv_rev_css' );
-
-function fn_adv_rev_js() {
-  if ( !is_admin() ) {
-    wp_enqueue_scripts( 'fn-adv-rev-base-js', FN_ADV_REV_URL . 'assets/js/base-min.js', array(), filemtime(FN_ADV_REV_TEMPLATE_DIR . 'assets/js/base-min.js'), true);
-  }
-}
-add_action( 'wp_enqueue_scripts ', 'fn_adv_rev_js');
+add_action( 'wp_enqueue_scripts', 'fn_adv_rev_assets' );
 
 function fn_adv_rev_add_footer_styles() {
   if ( !is_admin() ) {
@@ -162,7 +156,7 @@ function fn_adv_rev_get_fields($post){
     foreach ($fields as $key => $field) {
       ?><div class="uk-margin">
           <label for="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>" class="uk-h5"><?php echo $field['label']; ?></label>
-          <input id="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>"" name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][value]'; ?>" type="<?php echo $field['type']; ?>" value="<?php if(is_array($fn_adv_rev_fields)) echo $fn_adv_rev_fields[$key]['value']; ?>">
+          <input id="<?php echo 'fn_adv_rev_fields'.'['.$key.']'; ?>" name="<?php echo 'fn_adv_rev_fields'.'['.$key.'][value]'; ?>" type="<?php echo $field['type']; ?>" value="<?php if(is_array($fn_adv_rev_fields)) echo $fn_adv_rev_fields[$key]['value']; ?>">
           <?php wp_nonce_field( 'fn_adv_rev_fields_save['.$key.']', 'fn_adv_rev_fields_save_nonce['.$key.']' ); ?>
       </div><?php
     }

@@ -9,6 +9,16 @@
 	],
 "creatorBuild": "32001",
 "files": {
+	"/css/fn-adv-rev-wp-base.css": {
+		"aP": 1,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
+		"oA": 0,
+		"oAP": "/css/fn-adv-rev-wp-base-min.css",
+		"oF": 0,
+		"oS": 3
+		},
 	"/css/main.css": {
 		"aP": 1,
 		"bl": 0,
