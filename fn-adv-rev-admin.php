@@ -5,8 +5,8 @@ defined( 'ABSPATH' ) || exit;
 function fn_adv_rev_post_type() {
 
   $labels = array(
-    'name'               => _x( 'Advanced Reviews', 'post type general name', 'your-plugin-textdomain' ),
-		'singular_name'      => _x( 'Review', 'post type singular name', 'your-plugin-textdomain'),
+    'name'               => _x( 'Advanced Reviews', 'post type general name', 'firmennest | Advanced Reviews' ),
+		'singular_name'      => _x( 'Review', 'post type singular name', 'firmennest | Advanced Reviews'),
     'menu_name'          => _x( 'Advanced Reviews', 'admin menu', 'firmennest | Advanced Reviews' ),
     'name_admin_bar'     => _x( 'Review', 'add new on admin bar', 'firmennest | Advanced Reviews' ),
     'add_new'            => _x( 'Add New', 'book', 'firmennest | Advanced Reviews' ),
