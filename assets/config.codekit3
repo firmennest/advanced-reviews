@@ -2465,7 +2465,7 @@
 			"flagValue": -1
 			}
 		},
-	"uglifyMangleNames": 1,
+	"uglifyMangleNames": 0,
 	"uglifyReservedNamesString": "$,exports,require",
 	"websiteRelativeRoot": ""
 	},

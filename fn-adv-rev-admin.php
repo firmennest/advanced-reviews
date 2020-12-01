@@ -101,7 +101,7 @@ add_action( 'wp_enqueue_scripts', 'fn_adv_rev_assets' );
 
 function fn_adv_rev_add_footer_styles() {
   if ( !is_admin() ) {
-    wp_enqueue_style('fnadvrev-loader-css');
+    wp_enqueue_style('fnadvrev-loader');
   }
 };
 add_action( 'get_footer', 'fn_adv_rev_add_footer_styles' );
